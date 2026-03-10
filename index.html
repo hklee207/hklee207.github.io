@@ -1,151 +1,543 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Economics & Finance Research</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aiden Lee · Economics & Finance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:      #07090f;
+      --bg2:     #0d1119;
+      --bg3:     #111622;
+      --surface: #141a26;
+      --white:   #f0f2f7;
+      --dim:     #8892a4;
+      --dimmer:  #3d4558;
+      --accent:  #4e8ef7;
+      --accent2: #7eb3ff;
+      --green:   #3ecf8e;
+      --red:     #f56565;
+      --border:  rgba(255,255,255,0.07);
+      --serif:   'Cormorant Garamond', Georgia, serif;
+      --sans:    'Barlow', sans-serif;
+      --cond:    'Barlow Condensed', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--white); line-height: 1.6; overflow-x: hidden; }
+
+    /* ── TICKER ── */
+    .ticker-bar { background: var(--bg2); border-bottom: 1px solid var(--border); font-family: var(--cond); font-size: 11px; letter-spacing: 0.1em; padding: 7px 0; overflow: hidden; white-space: nowrap; }
+    .ticker-track { display: inline-block; animation: ticker 40s linear infinite; }
+    .ticker-track span { margin: 0 44px; color: var(--dim); }
+    .ticker-track .up   { color: var(--green); }
+    .ticker-track .down { color: var(--red); }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── HEADER ── */
+    header { border-bottom: 1px solid var(--border); background: rgba(7,9,15,0.96); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1320px; margin: 0 auto; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { font-family: var(--cond); font-size: 17px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .logo-dot { width: 6px; height: 6px; background: var(--accent); display: inline-block; transform: rotate(45deg); }
+    nav { display: flex; gap: 32px; align-items: center; }
+    nav a { font-family: var(--cond); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+    nav a:hover { color: var(--white); }
+    .nav-cta { border: 1px solid rgba(78,142,247,0.4) !important; color: var(--accent) !important; padding: 7px 18px !important; font-size: 11px !important; transition: all 0.2s !important; }
+    .nav-cta:hover { background: var(--accent) !important; color: #fff !important; border-color: var(--accent) !important; }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    .hero { max-width: 1320px; margin: 0 auto; padding: 90px 48px 70px; display: grid; grid-template-columns: 1fr 360px; gap: 80px; align-items: start; }
+    .hero-date { font-family: var(--cond); font-size: 11px; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .hero-date::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+    .hero-headline { font-family: var(--serif); font-size: clamp(40px, 4.5vw, 64px); font-weight: 600; line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 22px; color: var(--white); }
+    .hero-headline em { font-style: italic; color: var(--accent2); }
+    .hero-sub { font-size: 16px; color: var(--dim); line-height: 1.75; max-width: 520px; margin-bottom: 36px; font-weight: 300; }
+    .hero-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { font-family: var(--cond); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--dimmer); padding: 5px 14px; color: var(--dim); cursor: pointer; transition: all 0.2s; background: none; }
+    .tag:hover, .tag.active { border-color: var(--accent); color: var(--accent); background: rgba(78,142,247,0.07); }
+
+    /* HERO SIDEBAR */
+    .hero-sidebar { border-left: 1px solid var(--border); padding-left: 48px; }
+    .sidebar-label { font-family: var(--cond); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmer); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .sidebar-item { padding: 16px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+    .sidebar-item:hover .si-title { color: var(--accent2); }
+    .si-num { font-family: var(--cond); font-size: 11px; color: var(--accent); margin-bottom: 6px; letter-spacing: 0.1em; }
+    .si-title { font-family: var(--serif); font-size: 15px; font-weight: 600; line-height: 1.35; transition: color 0.2s; color: var(--white); }
+    .si-meta { font-size: 12px; color: var(--dimmer); margin-top: 5px; font-family: var(--cond); letter-spacing: 0.06em; }
+
+    /* ── SECTION DIVIDER ── */
+    .section-divider { max-width: 1320px; margin: 0 auto; padding: 0 48px; display: flex; align-items: center; gap: 16px; margin-bottom: 36px; }
+    .section-divider h2 { font-family: var(--cond); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmer); white-space: nowrap; }
+    .section-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ── FEATURED GRID ── */
+    .featured-grid { max-width: 1320px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 70px; }
+    .card { background: var(--bg); padding: 34px; cursor: pointer; transition: background 0.25s; position: relative; overflow: hidden; }
+    .card::after { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s ease; }
+    .card:hover::after { width: 100%; }
+    .card:hover { background: var(--bg2); }
+    .card-primary { padding: 44px; }
+    .card-category { font-family: var(--cond); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; font-weight: 500; }
+    .card-title { font-family: var(--serif); font-weight: 600; line-height: 1.2; margin-bottom: 14px; color: var(--white); }
+    .card-primary .card-title { font-size: 26px; }
+    .card .card-title { font-size: 18px; }
+    .card-excerpt { font-size: 14px; color: var(--dim); line-height: 1.7; margin-bottom: 18px; font-weight: 300; }
+    .card-meta { font-family: var(--cond); font-size: 11px; color: var(--dimmer); display: flex; gap: 18px; letter-spacing: 0.06em; }
+    .card-meta .read-time { color: var(--accent); }
+
+    /* ── ARTICLE LIST ── */
+    .articles-section { max-width: 1320px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: 1fr 290px; gap: 70px; margin-bottom: 90px; }
+    .article-list { display: flex; flex-direction: column; }
+    .article-item { display: grid; grid-template-columns: 56px 1fr; gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
+    .article-item.hidden { display: none; }
+    .article-item:hover .ai-title { color: var(--accent2); }
+    .ai-index { font-family: var(--serif); font-size: 32px; font-weight: 600; color: var(--dimmer); line-height: 1; padding-top: 4px; transition: color 0.2s; }
+    .article-item:hover .ai-index { color: var(--accent); }
+    .ai-cat { font-family: var(--cond); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+    .ai-title { font-family: var(--serif); font-size: 20px; font-weight: 600; line-height: 1.25; margin-bottom: 10px; transition: color 0.2s; color: var(--white); }
+    .ai-excerpt { font-size: 14px; color: var(--dim); line-height: 1.65; margin-bottom: 12px; font-weight: 300; }
+    .ai-meta { font-family: var(--cond); font-size: 11px; color: var(--dimmer); display: flex; gap: 14px; letter-spacing: 0.06em; }
+
+    /* ── SIDE PANEL ── */
+    .about-block { background: var(--surface); border: 1px solid var(--border); padding: 28px; margin-bottom: 40px; }
+    .about-avatar { width: 44px; height: 44px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--cond); font-size: 15px; font-weight: 600; letter-spacing: 0.08em; color: #fff; margin-bottom: 16px; }
+    .about-name { font-family: var(--cond); font-size: 16px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+    .about-bio { font-size: 13px; color: var(--dim); line-height: 1.65; margin-bottom: 18px; font-weight: 300; }
+    .about-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .about-link { font-family: var(--cond); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(78,142,247,0.1); border: 1px solid rgba(78,142,247,0.2); color: var(--accent); text-decoration: none; padding: 5px 12px; transition: all 0.2s; }
+    .about-link:hover { background: var(--accent); color: #fff; }
+    .panel-label { font-family: var(--cond); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmer); padding-bottom: 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+    .topic-list { display: flex; flex-direction: column; margin-bottom: 40px; }
+    .topic-item { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: color 0.2s; }
+    .topic-item:hover { color: var(--accent2); }
+    .topic-name { font-size: 14px; }
+    .topic-count { font-family: var(--cond); font-size: 11px; color: var(--dimmer); letter-spacing: 0.08em; }
+    .chart-widget { background: var(--surface); border: 1px solid var(--border); padding: 20px; }
+    .cw-label { font-family: var(--cond); font-size: 10px; color: var(--dimmer); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 4px; }
+    .cw-value { font-family: var(--cond); font-size: 30px; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+    .cw-change { font-size: 13px; font-family: var(--cond); letter-spacing: 0.06em; }
+    .cw-change.up { color: var(--green); }
+    .sparkline { margin-top: 16px; height: 48px; }
+    .sparkline svg { width: 100%; height: 100%; }
+
+    /* ── ABOUT PAGE ── */
+    .about-page { max-width: 900px; margin: 0 auto; padding: 70px 48px 90px; }
+    .about-page-header { display: grid; grid-template-columns: 130px 1fr; gap: 50px; align-items: start; margin-bottom: 60px; padding-bottom: 50px; border-bottom: 1px solid var(--border); }
+    .about-photo { width: 130px; height: 130px; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--cond); font-size: 40px; font-weight: 600; color: var(--accent); }
+    .about-page-name { font-family: var(--serif); font-size: 42px; font-weight: 600; line-height: 1.1; margin-bottom: 8px; }
+    .about-page-title { font-family: var(--cond); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .about-page-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+    .about-page-link { font-family: var(--cond); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--dimmer); color: var(--dim); text-decoration: none; padding: 7px 16px; transition: all 0.2s; }
+    .about-page-link:hover { border-color: var(--accent); color: var(--accent); }
+    .about-section { margin-bottom: 48px; }
+    .about-section-title { font-family: var(--cond); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmer); margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .about-body { font-size: 16px; line-height: 1.85; color: var(--dim); font-weight: 300; }
+    .about-body p { margin-bottom: 18px; }
+    .exp-item { padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .exp-role { font-family: var(--serif); font-size: 18px; font-weight: 600; margin-bottom: 3px; }
+    .exp-org { font-size: 14px; color: var(--dim); margin-bottom: 5px; }
+    .exp-date { font-family: var(--cond); font-size: 11px; color: var(--accent); letter-spacing: 0.08em; }
+    .edu-item { padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .edu-school { font-family: var(--serif); font-size: 18px; font-weight: 600; }
+    .edu-degree { font-size: 14px; color: var(--dim); margin: 4px 0; }
+    .edu-meta { font-family: var(--cond); font-size: 11px; color: var(--accent); letter-spacing: 0.08em; }
+    .award-list { list-style: none; }
+    .award-list li { padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 15px; display: flex; justify-content: space-between; align-items: center; }
+    .award-list li span { font-family: var(--cond); font-size: 11px; color: var(--dimmer); letter-spacing: 0.06em; }
+
+    /* ── ARTICLE VIEW ── */
+    .article-view { max-width: 740px; margin: 0 auto; padding: 60px 48px 90px; }
+    .article-back { display: inline-flex; align-items: center; gap: 10px; font-family: var(--cond); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmer); cursor: pointer; margin-bottom: 44px; transition: color 0.2s; background: none; border: none; padding: 0; }
+    .article-back:hover { color: var(--accent); }
+    .article-back::before { content: '←'; font-size: 15px; }
+    .article-cat { font-family: var(--cond); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .article-title { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); font-weight: 600; line-height: 1.1; margin-bottom: 18px; }
+    .article-meta { font-family: var(--cond); font-size: 12px; color: var(--dimmer); display: flex; gap: 22px; margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--border); letter-spacing: 0.06em; }
+    .article-meta .highlight { color: var(--accent); }
+    .article-body { font-size: 17px; line-height: 1.9; color: #b0b8cc; font-weight: 300; }
+    .article-body p { margin-bottom: 26px; }
+    .article-body h2 { font-family: var(--serif); font-size: 26px; font-weight: 600; margin: 44px 0 18px; color: var(--white); }
+    .article-body h3 { font-family: var(--serif); font-size: 21px; font-weight: 600; margin: 34px 0 14px; color: var(--white); }
+    .article-body blockquote { border-left: 2px solid var(--accent); margin: 36px 0; padding: 6px 0 6px 28px; font-family: var(--serif); font-style: italic; font-size: 21px; line-height: 1.6; color: var(--dim); }
+    .add-article-note { background: rgba(78,142,247,0.06); border: 1px solid rgba(78,142,247,0.2); padding: 20px 24px; margin-top: 36px; font-size: 14px; color: var(--dim); line-height: 1.7; }
+    .add-article-note strong { color: var(--accent); }
+
+    /* ── SUBSCRIBE ── */
+    .subscribe-banner { background: var(--bg2); border-top: 1px solid var(--border); padding: 80px 48px; text-align: center; }
+    .subscribe-banner h2 { font-family: var(--serif); font-size: 38px; font-weight: 600; color: var(--white); margin-bottom: 14px; }
+    .subscribe-banner p { color: var(--dim); font-size: 15px; margin-bottom: 34px; font-weight: 300; }
+    .sub-form { display: flex; max-width: 420px; margin: 0 auto; }
+    .sub-form input { flex: 1; padding: 13px 18px; font-family: var(--sans); font-size: 14px; background: var(--surface); border: 1px solid var(--dimmer); border-right: none; color: var(--white); outline: none; transition: border 0.2s; font-weight: 300; }
+    .sub-form input::placeholder { color: var(--dimmer); }
+    .sub-form input:focus { border-color: var(--accent); }
+    .sub-form button { padding: 13px 24px; background: var(--accent); color: #fff; font-family: var(--cond); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+    .sub-form button:hover { background: var(--accent2); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--bg); border-top: 1px solid var(--border); color: var(--dimmer); padding: 36px 48px; text-align: center; font-size: 13px; font-family: var(--cond); letter-spacing: 0.06em; }
+    footer .footer-logo { font-family: var(--cond); font-size: 14px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+
+    /* ── ANIMATIONS ── */
+    .fade-in { opacity: 0; transform: translateY(14px); animation: fadeIn 0.7s ease forwards; }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    .d1{animation-delay:0.05s} .d2{animation-delay:0.15s} .d3{animation-delay:0.25s} .d4{animation-delay:0.35s} .d5{animation-delay:0.45s}
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; padding: 50px 20px; }
+      .hero-sidebar { display: none; }
+      .featured-grid { grid-template-columns: 1fr; padding: 0 20px; margin-bottom: 40px; }
+      .articles-section { grid-template-columns: 1fr; padding: 0 20px; }
+      .side-panel { display: none; }
+      .section-divider { padding: 0 20px; }
+      nav { display: none; }
+      .header-inner { padding: 0 20px; }
+      .about-page-header { grid-template-columns: 1fr; }
+      .about-page { padding: 40px 20px 60px; }
+      .article-view { padding: 40px 20px 60px; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-inner">
-      <a href="index.html" class="nav-brand">Aiden Lee</a>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#research">Research</a></li>
-        <li><a href="#blog">Analysis</a></li>
-      </ul>
-    </div>
-  </nav>
+<!-- TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-track">
+    <span>S&amp;P 500 <span class="up">▲ 5,842 (+0.68%)</span></span>
+    <span>10Y Treasury <span class="down">▼ 4.21% (−0.03)</span></span>
+    <span>EUR/USD <span class="up">▲ 1.0842 (+0.12%)</span></span>
+    <span>WTI Crude <span class="down">▼ $71.30 (−0.94%)</span></span>
+    <span>Gold <span class="up">▲ $2,918 (+0.43%)</span></span>
+    <span>NASDAQ <span class="up">▲ 18,411 (+0.81%)</span></span>
+    <span>Fed Funds Rate <span>4.25–4.50%</span></span>
+    <span>VIX <span class="down">▼ 19.4 (−2.1%)</span></span>
+    <span>USD/KRW <span class="down">▼ 1,448 (−0.3%)</span></span>
+    <span>S&amp;P 500 <span class="up">▲ 5,842 (+0.68%)</span></span>
+    <span>10Y Treasury <span class="down">▼ 4.21% (−0.03)</span></span>
+    <span>EUR/USD <span class="up">▲ 1.0842 (+0.12%)</span></span>
+    <span>WTI Crude <span class="down">▼ $71.30 (−0.94%)</span></span>
+    <span>Gold <span class="up">▲ $2,918 (+0.43%)</span></span>
+    <span>NASDAQ <span class="up">▲ 18,411 (+0.81%)</span></span>
+    <span>Fed Funds Rate <span>4.25–4.50%</span></span>
+    <span>VIX <span class="down">▼ 19.4 (−2.1%)</span></span>
+    <span>USD/KRW <span class="down">▼ 1,448 (−0.3%)</span></span>
+  </div>
+</div>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-inner">
-      <p class="hero-label">Economics &amp; Finance</p>
-      <h1>Research &amp; Analysis</h1>
-      <p class="hero-sub">Working papers, quantitative analysis, and commentary on macroeconomics, markets, and financial theory.</p>
-      <a href="#research" class="btn">View Work</a>
-    </div>
-  </header>
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a class="logo" onclick="showPage('home')"><span class="logo-dot"></span>Aiden Lee</a>
+    <nav>
+      <a onclick="filterCategory('Macro')">Macro</a>
+      <a onclick="filterCategory('Markets')">Markets</a>
+      <a onclick="filterCategory('Policy')">Policy</a>
+      <a onclick="filterCategory('Research')">Research</a>
+      <a onclick="showPage('about')">About</a>
+      <a onclick="scrollToSubscribe()" class="nav-cta">Subscribe</a>
+    </nav>
+  </div>
+</header>
 
-  <!-- ABOUT -->
-  <section id="about" class="section">
-    <div class="container">
-      <div class="about-grid">
-        <div>
-          <h2>About</h2>
-          <p>I'm Aiden (Hyunku) Lee, an Industrial &amp; Operations Engineering student at the University of Michigan with a deep passion for macroeconomics, finance, and quantitative research. Having worked across supply chains in Singapore, logistics networks in Seoul, and research labs in Chicago, I write about the economic forces that shape the world I've been lucky enough to move through.</p>
-        </div>
-        <div class="about-links">
-          <h3>Links</h3>
-          <ul>
-            <li><a href="https://github.com/hklee207" target="_blank">GitHub</a></li>
-            <li><a href="https://www.linkedin.com/in/hyunku-lee-2705b7249/" target="_blank">LinkedIn</a></li>
-            <li><a href="mailto:aidenleez207@gmail.com">Email</a></li>
-          </ul>
-        </div>
+<!-- ════ HOME PAGE ════ -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="fade-in d1">
+      <div class="hero-date">March 2026 · Independent Analysis</div>
+      <h1 class="hero-headline">Rigorous thinking on <em>economics</em> &amp; financial markets</h1>
+      <p class="hero-sub">Independent research and commentary at the intersection of quantitative analysis, macroeconomics, and global finance — written by Aiden Lee, IOE student at the University of Michigan.</p>
+      <div class="hero-tags">
+        <button class="tag active" onclick="filterCategory('All')">All</button>
+        <button class="tag" onclick="filterCategory('Macro')">Macroeconomics</button>
+        <button class="tag" onclick="filterCategory('Policy')">Monetary Policy</button>
+        <button class="tag" onclick="filterCategory('Markets')">Capital Markets</button>
+        <button class="tag" onclick="filterCategory('Quant')">Quantitative</button>
+        <button class="tag" onclick="filterCategory('Research')">Research Notes</button>
+      </div>
+    </div>
+    <div class="hero-sidebar fade-in d3">
+      <div class="sidebar-label">Featured Work</div>
+      <div class="sidebar-item" onclick="openPost('posts/sp500-analysis-notebook.html')">
+        <div class="si-num">01</div>
+        <div class="si-title">S&amp;P 500 Top 20 — Financial Analysis Dashboard</div>
+        <div class="si-meta">Quantitative · Notebook</div>
+      </div>
+      <div class="sidebar-item" onclick="openPost('posts/gold-monte-carlo-notebook.html')">
+        <div class="si-num">02</div>
+        <div class="si-title">Monte Carlo Gold Price Simulation</div>
+        <div class="si-meta">Quantitative · Notebook</div>
+      </div>
+      <div class="sidebar-item" onclick="openPost('posts/gold-fed-monte-carlo-notebook.html')">
+        <div class="si-num">03</div>
+        <div class="si-title">Gold Price Monte Carlo — Fed Rate Adjusted</div>
+        <div class="si-meta">Macro · Notebook</div>
+      </div>
+      <div class="sidebar-item" onclick="openPost('posts/gold-price-tracker.html')">
+        <div class="si-num">04</div>
+        <div class="si-title">Gold Price Tracker</div>
+        <div class="si-meta">Macro · Live Spreadsheet</div>
       </div>
     </div>
   </section>
 
-  <!-- RESEARCH PAPERS -->
-  <section id="research" class="section section-alt">
-    <div class="container">
-      <h2>Research &amp; Papers</h2>
-      <p class="section-sub">Longer-form research, working papers, and data-driven projects.</p>
-      <div id="research-list" class="card-grid"></div>
+  <div class="section-divider"><h2>Featured</h2></div>
+  <div class="featured-grid fade-in d2">
+    <div class="card card-primary" onclick="openPost('posts/sp500-analysis-notebook.html')">
+      <div class="card-category">Quantitative Finance · Featured</div>
+      <h2 class="card-title">S&amp;P 500 Top 20 — Financial Analysis Dashboard</h2>
+      <p class="card-excerpt">DCF, DDM, Gordon Growth, and price/EV multiples valuation analysis across the top 20 S&amp;P 500 companies. Built using live data from yfinance with no API key required.</p>
+      <div class="card-meta"><span>March 2026</span><span class="read-time">Notebook</span></div>
     </div>
-  </section>
-
-  <!-- BLOG / ANALYSIS -->
-  <section id="blog" class="section">
-    <div class="container">
-      <h2>Analysis &amp; Commentary</h2>
-      <p class="section-sub">Shorter pieces, market commentary, and notebook walkthroughs.</p>
-      <div id="blog-list" class="card-grid"></div>
+    <div class="card" onclick="openPost('posts/gold-monte-carlo-notebook.html')">
+      <div class="card-category">Quantitative Finance</div>
+      <h2 class="card-title">Monte Carlo Gold Price Simulation</h2>
+      <p class="card-excerpt">Simulating future gold price paths using live Gold Futures data and Monte Carlo methods.</p>
+      <div class="card-meta"><span>March 2026</span><span class="read-time">Notebook</span></div>
     </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <p>&copy; <span id="year"></span> Aiden Lee &mdash; Economics &amp; Finance</p>
+    <div class="card" onclick="openPost('posts/gold-fed-monte-carlo-notebook.html')">
+      <div class="card-category">Macroeconomics</div>
+      <h2 class="card-title">Gold Price Monte Carlo — Fed Rate Adjusted</h2>
+      <p class="card-excerpt">Monte Carlo simulation incorporating historical gold/rate correlation and Polymarket Fed probabilities.</p>
+      <div class="card-meta"><span>March 2026</span><span class="read-time">Notebook</span></div>
     </div>
-  </footer>
+  </div>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+  <div class="section-divider"><h2>All Posts</h2></div>
+  <div class="articles-section">
+    <div class="article-list" id="articleList">
 
-    // ── ADD YOUR POSTS HERE ──────────────────────────────────────────────────
-    // category: "research" → appears under Research & Papers
-    // category: "analysis" → appears under Analysis & Commentary
-    const posts = [
-      {
-        title: "S&P 500 Top 20 — Financial Analysis Dashboard",
-        summary: "DCF, DDM, Gordon Growth, and price/EV multiples valuation analysis across the top 20 S&P 500 companies.",
-        date: "March 2026",
-        tag: "Quantitative Finance",
-        category: "research",
-        file: "posts/sp500-analysis-notebook.html"
-      },
-      {
-        title: "Monte Carlo Gold Price Simulation",
-        summary: "Simulating future gold price paths using live Gold Futures data (GC=F) and Monte Carlo methods.",
-        date: "March 2026",
-        tag: "Quantitative Finance",
-        category: "research",
-        file: "posts/gold-monte-carlo-notebook.html"
-      },
-      {
-        title: "Gold Price Monte Carlo — Fed Rate Adjusted",
-        summary: "Monte Carlo simulation incorporating historical gold/rate correlation and Polymarket Fed rate probabilities for Mar–Jun 2026.",
-        date: "March 2026",
-        tag: "Macroeconomics",
-        category: "analysis",
-        file: "posts/gold-fed-monte-carlo-notebook.html"
-      },
-      {
-        title: "Gold Price Tracker",
-        summary: "A live spreadsheet tracking gold price data, key macro variables, and historical trends.",
-        date: "March 2026",
-        tag: "Macroeconomics",
-        category: "analysis",
-        file: "posts/gold-price-tracker.html"
-      },
-      {
-        title: "Portfolio Management Tracker",
-        summary: "A live spreadsheet tracking portfolio positions, performance, and key financial metrics.",
-        date: "March 2026",
-        tag: "Portfolio Management",
-        category: "research",
-        file: "posts/portfolio-management-tracker.html"
-      }
-    ];
-    // ────────────────────────────────────────────────────────────────────────
+      <div class="article-item fade-in d1" data-category="Quant" onclick="openPost('posts/sp500-analysis-notebook.html')">
+        <div class="ai-index">01</div>
+        <div>
+          <div class="ai-cat">Quantitative Finance</div>
+          <div class="ai-title">S&amp;P 500 Top 20 — Financial Analysis Dashboard</div>
+          <div class="ai-excerpt">DCF, DDM, Gordon Growth, and price/EV multiples valuation analysis across the top 20 S&amp;P 500 companies using live yfinance data.</div>
+          <div class="ai-meta"><span>March 2026</span><span style="color:var(--accent)">Notebook</span></div>
+        </div>
+      </div>
 
-    function renderCard(post) {
-      return `
-        <a href="${post.file}" class="card">
-          <div class="card-meta">
-            <span class="tag">${post.tag}</span>
-            <span class="date">${post.date}</span>
+      <div class="article-item fade-in d2" data-category="Quant" onclick="openPost('posts/gold-monte-carlo-notebook.html')">
+        <div class="ai-index">02</div>
+        <div>
+          <div class="ai-cat">Quantitative Finance</div>
+          <div class="ai-title">Monte Carlo Gold Price Simulation</div>
+          <div class="ai-excerpt">Simulating future gold price paths using live Gold Futures data (GC=F) and Monte Carlo methods to estimate risk and return distributions.</div>
+          <div class="ai-meta"><span>March 2026</span><span style="color:var(--accent)">Notebook</span></div>
+        </div>
+      </div>
+
+      <div class="article-item fade-in d3" data-category="Macro" onclick="openPost('posts/gold-fed-monte-carlo-notebook.html')">
+        <div class="ai-index">03</div>
+        <div>
+          <div class="ai-cat">Macroeconomics</div>
+          <div class="ai-title">Gold Price Monte Carlo — Fed Rate Adjusted</div>
+          <div class="ai-excerpt">Monte Carlo simulation incorporating historical gold/rate correlation and Polymarket Fed rate probabilities for Mar–Jun 2026.</div>
+          <div class="ai-meta"><span>March 2026</span><span style="color:var(--accent)">Notebook</span></div>
+        </div>
+      </div>
+
+      <div class="article-item fade-in d4" data-category="Macro" onclick="openPost('posts/gold-price-tracker.html')">
+        <div class="ai-index">04</div>
+        <div>
+          <div class="ai-cat">Macroeconomics</div>
+          <div class="ai-title">Gold Price Tracker</div>
+          <div class="ai-excerpt">A live spreadsheet tracking gold price data, key macro variables, and historical trends.</div>
+          <div class="ai-meta"><span>March 2026</span><span style="color:var(--accent)">Live Spreadsheet</span></div>
+        </div>
+      </div>
+
+      <div class="article-item fade-in d5" data-category="Research" onclick="openPost('posts/portfolio-management-tracker.html')">
+        <div class="ai-index">05</div>
+        <div>
+          <div class="ai-cat">Portfolio Management</div>
+          <div class="ai-title">Portfolio Management Tracker</div>
+          <div class="ai-excerpt">A live spreadsheet tracking portfolio positions, performance, and key financial metrics.</div>
+          <div class="ai-meta"><span>March 2026</span><span style="color:var(--accent)">Live Spreadsheet</span></div>
+        </div>
+      </div>
+
+      <div id="no-results" style="display:none; padding:40px 0; font-family:var(--cond); font-size:13px; color:var(--dimmer); letter-spacing:0.06em;">No posts found in this category yet.</div>
+    </div>
+
+    <aside class="side-panel">
+      <div class="about-block">
+        <div class="about-avatar">AL</div>
+        <div class="about-name">Aiden Lee</div>
+        <div class="about-bio">Hi! I'm Aiden (Hyunku) Lee, an Industrial &amp; Operations Engineering student at the University of Michigan with huge passion in macroeconomics, finance, and quant. Having worked across supply chains in Singapore, logistics networks in Seoul, and research labs in Chicago, I write about the economic forces that shape the world I've been lucky enough to move through.</div>
+        <div class="about-links">
+          <a href="https://www.linkedin.com/in/hyunku-lee-2705b7249/" target="_blank" class="about-link">LinkedIn</a>
+          <a href="https://github.com/hklee207" target="_blank" class="about-link">GitHub</a>
+          <a href="mailto:aidenleez207@gmail.com" class="about-link">Email</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel-label">Browse Topics</div>
+        <div class="topic-list">
+          <div class="topic-item" onclick="filterCategory('Macro')"><span class="topic-name">Macroeconomics</span><span class="topic-count">2 posts</span></div>
+          <div class="topic-item" onclick="filterCategory('Quant')"><span class="topic-name">Quantitative Finance</span><span class="topic-count">2 posts</span></div>
+          <div class="topic-item" onclick="filterCategory('Research')"><span class="topic-name">Portfolio Management</span><span class="topic-count">1 post</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel-label">Market Snapshot</div>
+        <div class="chart-widget">
+          <div class="cw-label">Gold (XAU/USD)</div>
+          <div class="cw-value">$2,918</div>
+          <div class="cw-change up">▲ +0.43% today</div>
+          <div class="sparkline">
+            <svg viewBox="0 0 260 50" preserveAspectRatio="none">
+              <polyline fill="none" stroke="#3ecf8e" stroke-width="2" points="0,40 30,36 60,38 90,28 120,32 150,20 180,24 210,14 230,18 260,10"/>
+            </svg>
           </div>
-          <h3>${post.title}</h3>
-          <p>${post.summary}</p>
-          <span class="read-more">Read &rarr;</span>
-        </a>`;
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="subscribe-banner" id="subscribe">
+    <h2>Stay ahead of the curve.</h2>
+    <p>New analysis delivered to your inbox — no noise, just rigorous thinking.</p>
+    <div class="sub-form">
+      <input type="email" placeholder="your@email.com" id="subEmail"/>
+      <button onclick="handleSubscribe()">Subscribe</button>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Aiden Lee · Economics &amp; Finance</div>
+    <p>&copy; 2026 · Independent research · All views are personal · <a href="mailto:aidenleez207@gmail.com" style="color:var(--dimmer)">aidenleez207@gmail.com</a></p>
+  </footer>
+</div>
+
+<!-- ════ ABOUT PAGE ════ -->
+<div id="page-about" class="page">
+  <div class="about-page">
+    <div class="about-page-header fade-in">
+      <div class="about-photo">AL</div>
+      <div>
+        <div class="about-page-title">About the Author</div>
+        <div class="about-page-name">Hyunku (Aiden) Lee</div>
+        <p style="font-size:15px; color:var(--dim); line-height:1.75; margin-top:12px; font-weight:300;">Hi! I'm Aiden (Hyunku) Lee, an Industrial &amp; Operations Engineering student at the University of Michigan with huge passion in macroeconomics, finance, and quant. Having worked across supply chains in Singapore, logistics networks in Seoul, and research labs in Chicago, I write about the economic forces that shape the world I've been lucky enough to move through.</p>
+        <div class="about-page-links">
+          <a href="https://www.linkedin.com/in/hyunku-lee-2705b7249/" target="_blank" class="about-page-link">LinkedIn</a>
+          <a href="https://github.com/hklee207" target="_blank" class="about-page-link">GitHub</a>
+          <a href="mailto:aidenleez207@gmail.com" class="about-page-link">Email</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-section fade-in d2">
+      <div class="about-section-title">About This Site</div>
+      <div class="about-body">
+        <p>I started this site as a place to think in public about economics and finance — the kind of thinking that doesn't fit neatly into a classroom or a slide deck. I'm an engineer by training, which means I tend to approach economic questions the way I'd approach an optimization problem: define the objective, map the constraints, and be honest about the uncertainty.</p>
+        <p>What interests me most is the boundary between the quantitative and the qualitative — where supply chain network models meet monetary policy, where logistics data illuminates consumer behavior, where operations research tools can sharpen macroeconomic intuition.</p>
+        <p>I grew up in Seoul, spent time in the US and Singapore, and served in the ROK Army as a logistics officer and interpreter. Each of those experiences left me more curious about how economies actually work in practice, not just in theory.</p>
+      </div>
+    </div>
+
+    <div class="about-section fade-in d2">
+      <div class="about-section-title">Education</div>
+      <div class="edu-item">
+        <div class="edu-school">University of Michigan — Ann Arbor</div>
+        <div class="edu-degree">B.S.E. in Industrial and Operations Engineering</div>
+        <div class="edu-meta">2024 – 2026 (expected) · GPA 3.935 · Dean's List</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-school">University of Illinois Chicago</div>
+        <div class="edu-degree">B.S. in Industrial Engineering</div>
+        <div class="edu-meta">2022 – 2023 · GPA 4.00 · Dean's List · Merit Scholarship</div>
+      </div>
+    </div>
+
+    <div class="about-section fade-in d3">
+      <div class="about-section-title">Experience</div>
+      <div class="exp-item">
+        <div class="exp-role">Logistics Officer &amp; Interpreter</div>
+        <div class="exp-org">Armed Forces Medical Command, ROK Army</div>
+        <div class="exp-date">Aug 2024 – Feb 2026</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-role">Supply Chain Intern</div>
+        <div class="exp-org">CAMAL Group — Singapore</div>
+        <div class="exp-date">May 2024 – Aug 2024</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-role">IT Internship</div>
+        <div class="exp-org">Kyoungdong Logistics — Seoul</div>
+        <div class="exp-date">Jul 2023 – Aug 2023</div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-role">Research / Science Aide</div>
+        <div class="exp-org">Dr. Vital's Lab, ECE Dept — University of Illinois Chicago</div>
+        <div class="exp-date">Oct 2022 – Dec 2023</div>
+      </div>
+    </div>
+
+    <div class="about-section fade-in d4">
+      <div class="about-section-title">Awards &amp; Recognition</div>
+      <ul class="award-list">
+        <li>Hydrogen Grand Challenge — Winner <span>University of Michigan, 2025</span></li>
+        <li>National Entrepreneurship Competition — Finalist <span>Ministry of Defense, Korea, 2025</span></li>
+        <li>Machine Learning Specialization <span>DeepLearning.AI (Andrew Ng), 2025</span></li>
+        <li>Korean Youth National Team — Inline Hockey <span>AAU International, 3rd Place &amp; Top Scorer, 2015</span></li>
+      </ul>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Aiden Lee · Economics &amp; Finance</div>
+    <p>&copy; 2026 · Independent research · All views are personal</p>
+  </footer>
+</div>
+
+<script>
+  function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function openPost(url) {
+    window.location.href = url;
+  }
+
+  function filterCategory(cat) {
+    document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+    if (cat === 'All') document.querySelector('.tag').classList.add('active');
+    showPage('home');
+    const items = document.querySelectorAll('.article-item');
+    let visible = 0;
+    items.forEach(item => {
+      const show = cat === 'All' || (item.dataset.category || '').toLowerCase().includes(cat.toLowerCase());
+      item.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+    setTimeout(() => {
+      document.getElementById('articleList').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  function scrollToSubscribe() {
+    showPage('home');
+    setTimeout(() => document.getElementById('subscribe').scrollIntoView({ behavior: 'smooth' }), 100);
+  }
+
+  function handleSubscribe() {
+    const input = document.getElementById('subEmail');
+    const btn = input.nextElementSibling;
+    if (input.value.includes('@')) {
+      btn.textContent = '✓ Done!';
+      btn.style.background = '#3ecf8e';
+      input.value = '';
     }
-
-    const research = posts.filter(p => p.category === 'research');
-    const analysis = posts.filter(p => p.category === 'analysis');
-
-    document.getElementById('research-list').innerHTML =
-      research.length ? research.map(renderCard).join('') : '<p class="empty">No posts yet.</p>';
-
-    document.getElementById('blog-list').innerHTML =
-      analysis.length ? analysis.map(renderCard).join('') : '<p class="empty">No posts yet.</p>';
-  </script>
+  }
+</script>
 </body>
 </html>
