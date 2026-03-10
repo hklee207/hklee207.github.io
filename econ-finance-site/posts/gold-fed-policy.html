@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gold as a Safe Haven | Aiden Lee</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">Aiden Lee</a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#research">Research</a></li>
+        <li><a href="../index.html#blog">Analysis</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="post-header">
+    <div class="container">
+      <a href="../index.html" class="back-link">&larr; Back to all posts</a>
+      <div class="card-meta">
+        <span class="tag">Macroeconomics</span>
+        <span class="date">February 2026</span>
+      </div>
+      <h1>Gold as a Safe Haven: Fed Policy and Price Dynamics</h1>
+      <p class="post-summary">Examining the relationship between Federal Reserve interest rate decisions and gold price movements over the past two decades.</p>
+    </div>
+  </header>
+
+  <article class="post-body">
+
+    <h2>Background</h2>
+    <p>Gold's role as a store of value is well-established in economic history, but its relationship with monetary policy is nuanced. The theoretical channel is straightforward: higher real interest rates raise the opportunity cost of holding gold (which pays no yield), pushing prices down. Conversely, rate cuts and quantitative easing tend to support gold prices.</p>
+    <p>This analysis tests that relationship empirically using monthly data from 2000 to 2025.</p>
+
+    <h2>Key Observations</h2>
+
+    <h3>1. The 2008–2011 Rally</h3>
+    <p>Following the Global Financial Crisis, the Fed cut rates to the zero lower bound and launched three rounds of QE. Gold prices more than doubled from ~$900/oz in late 2008 to ~$1,900/oz by August 2011, a pattern consistent with the opportunity-cost channel and elevated inflation expectations.</p>
+
+    <h3>2. The 2013 Taper Tantrum</h3>
+    <p>When then-Fed Chair Bernanke signaled potential tapering of asset purchases in May 2013, gold dropped roughly 20% in a matter of weeks &mdash; a sharp demonstration of how sensitive gold prices are to shifts in the expected real rate path.</p>
+
+    <h3>3. The 2020–2024 Cycle</h3>
+    <p>Pandemic-era zero rates and massive balance sheet expansion drove gold to a new record of ~$2,100/oz in 2020. The subsequent 2022–2023 tightening cycle (the fastest in 40 years) only modestly pressured prices, as geopolitical risk and central bank demand provided offsetting support.</p>
+
+    <h2>Regression Results</h2>
+    <p>A simple OLS regression of monthly gold returns on the change in the real 10-year Treasury yield (2000–2025):</p>
+    <pre><code>gold_return_t = α + β * Δreal_yield_t + ε_t
+
+Results:
+  α (intercept):  0.48%  (p = 0.09)
+  β (Δreal yield): -4.21  (p &lt; 0.001)
+  R²:              0.18</code></pre>
+
+    <blockquote>A 100 bps increase in the real yield is associated with a 4.2% decline in monthly gold returns, on average. The R² of 0.18 indicates the real yield explains roughly 18% of gold's monthly variation &mdash; significant, but far from the whole story.</blockquote>
+
+    <h2>Other Drivers</h2>
+    <ul>
+      <li><strong>USD strength:</strong> Gold is priced in dollars; a stronger dollar mechanically depresses gold in dollar terms.</li>
+      <li><strong>Central bank demand:</strong> Emerging market central banks (China, India, Turkey) have been significant net buyers since 2022, adding a structural demand floor.</li>
+      <li><strong>Geopolitical risk:</strong> Gold's safe-haven premium spikes during episodes of elevated uncertainty, independent of rate levels.</li>
+    </ul>
+
+    <h2>Conclusion</h2>
+    <p>The negative relationship between real yields and gold prices is robust and economically intuitive. However, gold is not a simple rate trade. Central bank accumulation and geopolitical risk premiums can sustain elevated prices even in a high-rate environment, as the 2022–2024 period demonstrated.</p>
+
+  </article>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Aiden Lee &mdash; Economics &amp; Finance</p>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

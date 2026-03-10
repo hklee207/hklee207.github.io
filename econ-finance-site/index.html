@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Economics & Finance Research</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Aiden Lee</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#blog">Analysis</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="hero-label">Economics &amp; Finance</p>
+      <h1>Research &amp; Analysis</h1>
+      <p class="hero-sub">Working papers, quantitative analysis, and commentary on macroeconomics, markets, and financial theory.</p>
+      <a href="#research" class="btn">View Work</a>
+    </div>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="about-grid">
+        <div>
+          <h2>About</h2>
+          <p>I study economics and finance with a focus on quantitative methods, macroeconomic modeling, and financial markets. This site collects my research papers, data analyses, and written commentary.</p>
+          <p>Topics I work on: monetary policy, asset pricing, econometrics, and market microstructure.</p>
+        </div>
+        <div class="about-links">
+          <h3>Links</h3>
+          <ul>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Email</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH PAPERS -->
+  <section id="research" class="section section-alt">
+    <div class="container">
+      <h2>Research &amp; Papers</h2>
+      <p class="section-sub">Longer-form research, working papers, and data-driven projects.</p>
+      <div id="research-list" class="card-grid"></div>
+    </div>
+  </section>
+
+  <!-- BLOG / ANALYSIS -->
+  <section id="blog" class="section">
+    <div class="container">
+      <h2>Analysis &amp; Commentary</h2>
+      <p class="section-sub">Shorter pieces, market commentary, and notebook walkthroughs.</p>
+      <div id="blog-list" class="card-grid"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Aiden Lee &mdash; Economics &amp; Finance</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ── ADD YOUR POSTS HERE ──────────────────────────────────────────────────
+    // category: "research" → appears under Research & Papers
+    // category: "analysis" → appears under Analysis & Commentary
+    const posts = [
+      {
+        title: "S&P 500 Monte Carlo Simulation: Risk Estimation Under Uncertainty",
+        summary: "Using historical return data to simulate S&P 500 price paths and estimate value-at-risk with Monte Carlo methods.",
+        date: "March 2026",
+        tag: "Quantitative Finance",
+        category: "research",
+        file: "posts/sp500-monte-carlo.html"
+      },
+      {
+        title: "Gold as a Safe Haven: Fed Policy and Price Dynamics",
+        summary: "Examining the relationship between Federal Reserve interest rate decisions and gold price movements over the past two decades.",
+        date: "February 2026",
+        tag: "Macroeconomics",
+        category: "analysis",
+        file: "posts/gold-fed-policy.html"
+      }
+    ];
+    // ────────────────────────────────────────────────────────────────────────
+
+    function renderCard(post) {
+      return `
+        <a href="${post.file}" class="card">
+          <div class="card-meta">
+            <span class="tag">${post.tag}</span>
+            <span class="date">${post.date}</span>
+          </div>
+          <h3>${post.title}</h3>
+          <p>${post.summary}</p>
+          <span class="read-more">Read &rarr;</span>
+        </a>`;
+    }
+
+    const research = posts.filter(p => p.category === 'research');
+    const analysis = posts.filter(p => p.category === 'analysis');
+
+    document.getElementById('research-list').innerHTML =
+      research.length ? research.map(renderCard).join('') : '<p class="empty">No posts yet.</p>';
+
+    document.getElementById('blog-list').innerHTML =
+      analysis.length ? analysis.map(renderCard).join('') : '<p class="empty">No posts yet.</p>';
+  </script>
+</body>
+</html>

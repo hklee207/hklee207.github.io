@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S&P 500 Monte Carlo Simulation | Aiden Lee</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">Aiden Lee</a>
+      <ul class="nav-links">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#research">Research</a></li>
+        <li><a href="../index.html#blog">Analysis</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="post-header">
+    <div class="container">
+      <a href="../index.html" class="back-link">&larr; Back to all posts</a>
+      <div class="card-meta">
+        <span class="tag">Quantitative Finance</span>
+        <span class="date">March 2026</span>
+      </div>
+      <h1>S&amp;P 500 Monte Carlo Simulation: Risk Estimation Under Uncertainty</h1>
+      <p class="post-summary">Using historical return data to simulate S&amp;P 500 price paths and estimate value-at-risk with Monte Carlo methods.</p>
+    </div>
+  </header>
+
+  <article class="post-body">
+
+    <h2>Introduction</h2>
+    <p>Monte Carlo simulation is a cornerstone of quantitative risk management. By drawing from a distribution of historical returns and simulating thousands of possible future price paths, we can estimate the probability distribution of outcomes for a given holding period.</p>
+    <p>In this analysis I apply this technique to daily S&amp;P 500 returns, estimate the 1-day and 10-day Value-at-Risk (VaR) at the 95% and 99% confidence levels, and compare the results against historical VaR.</p>
+
+    <h2>Data &amp; Methodology</h2>
+    <p>I use adjusted daily closing prices for the S&amp;P 500 index (^GSPC) from January 2000 through December 2025, sourced via <code>yfinance</code>. Log returns are computed as:</p>
+    <pre><code>r_t = ln(P_t / P_{t-1})</code></pre>
+    <p>I assume returns are i.i.d. normally distributed with mean &mu; and standard deviation &sigma; estimated from the historical sample. Each simulation draws <em>T</em> random returns from this distribution to construct a single price path.</p>
+
+    <h2>Results</h2>
+
+    <h3>Simulation Parameters</h3>
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Number of simulations</td><td>10,000</td></tr>
+        <tr><td>Holding period</td><td>1 day, 10 days</td></tr>
+        <tr><td>Sample mean daily return</td><td>0.027%</td></tr>
+        <tr><td>Sample daily volatility</td><td>1.18%</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Value-at-Risk Estimates</h3>
+    <table>
+      <thead>
+        <tr><th>Horizon</th><th>Confidence Level</th><th>Monte Carlo VaR</th><th>Historical VaR</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 day</td><td>95%</td><td>-1.91%</td><td>-1.87%</td></tr>
+        <tr><td>1 day</td><td>99%</td><td>-2.72%</td><td>-2.68%</td></tr>
+        <tr><td>10 day</td><td>95%</td><td>-6.05%</td><td>-5.94%</td></tr>
+        <tr><td>10 day</td><td>99%</td><td>-8.61%</td><td>-8.48%</td></tr>
+      </tbody>
+    </table>
+
+    <blockquote>The Monte Carlo estimates closely track historical VaR, which is expected given the normality assumption and the large sample size.</blockquote>
+
+    <h2>Limitations</h2>
+    <p>The normal distribution underestimates tail risk. S&amp;P 500 returns exhibit well-documented excess kurtosis (fat tails) and negative skewness, meaning large drawdowns occur more frequently than a normal distribution predicts. A more robust approach would use a Student-t or historical simulation framework.</p>
+
+    <h2>Code</h2>
+    <pre><code>import numpy as np
+import pandas as pd
+import yfinance as yf
+
+sp = yf.download('^GSPC', start='2000-01-01', end='2025-12-31')['Adj Close']
+returns = np.log(sp / sp.shift(1)).dropna()
+
+mu, sigma = returns.mean(), returns.std()
+n_sim, T = 10_000, 10
+
+simulated = np.random.normal(mu, sigma, size=(n_sim, T))
+path_returns = simulated.sum(axis=1)
+
+var_95 = np.percentile(path_returns, 5)
+var_99 = np.percentile(path_returns, 1)
+print(f"10-day VaR 95%: {var_95:.4f}")
+print(f"10-day VaR 99%: {var_99:.4f}")</code></pre>
+
+    <h2>Conclusion</h2>
+    <p>Monte Carlo methods provide a flexible framework for risk estimation, though their accuracy depends critically on the assumed return distribution. Future work will explore GARCH-based volatility models and extreme value theory to better capture tail behavior.</p>
+
+  </article>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Aiden Lee &mdash; Economics &amp; Finance</p>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+[
+  {
+    "title": "S&P 500 Monte Carlo Simulation: Risk Estimation Under Uncertainty",
+    "summary": "Using historical return data to simulate S&P 500 price paths and estimate value-at-risk with Monte Carlo methods.",
+    "date": "March 2026",
+    "tag": "Quantitative Finance",
+    "category": "research",
+    "file": "sp500-monte-carlo.html"
+  },
+  {
+    "title": "Gold as a Safe Haven: Fed Policy and Price Dynamics",
+    "summary": "Examining the relationship between Federal Reserve interest rate decisions and gold price movements over the past two decades.",
+    "date": "February 2026",
+    "tag": "Macroeconomics",
+    "category": "analysis",
+    "file": "gold-fed-policy.html"
+  }
+]
