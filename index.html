@@ -234,10 +234,10 @@
   <div class="header-inner">
     <a class="logo" onclick="showPage('home')"><span class="logo-dot"></span>Aiden Lee</a>
     <nav>
-      <a onclick="filterCategory('Macro')">Macro</a>
-      <a onclick="filterCategory('Markets')">Markets</a>
-      <a onclick="filterCategory('Policy')">Policy</a>
-      <a onclick="filterCategory('Research')">Research</a>
+      <a onclick="filterCategory('Macro')">Macroeconomics</a>
+      <a onclick="filterCategory('Policy')">Monetary Policy</a>
+      <a onclick="filterCategory('Quant')">Quantitative Research</a>
+      <a onclick="filterCategory('Markets')">Domestic Markets</a>
       <a onclick="showPage('about')">About</a>
       <a onclick="scrollToSubscribe()" class="nav-cta">Subscribe</a>
     </nav>
@@ -255,9 +255,8 @@
         <button class="tag active" onclick="filterCategory('All')">All</button>
         <button class="tag" onclick="filterCategory('Macro')">Macroeconomics</button>
         <button class="tag" onclick="filterCategory('Policy')">Monetary Policy</button>
-        <button class="tag" onclick="filterCategory('Markets')">Capital Markets</button>
-        <button class="tag" onclick="filterCategory('Quant')">Quantitative</button>
-        <button class="tag" onclick="filterCategory('Research')">Research Notes</button>
+        <button class="tag" onclick="filterCategory('Quant')">Quantitative Research</button>
+        <button class="tag" onclick="filterCategory('Markets')">Domestic Markets</button>
       </div>
     </div>
     <div class="hero-sidebar fade-in d3">
@@ -288,19 +287,19 @@
   <div class="section-divider"><h2>Featured</h2></div>
   <div class="featured-grid fade-in d2">
     <div class="card card-primary" onclick="openPost('posts/sp500-analysis-notebook.html')">
-      <div class="card-category">Quantitative Finance · Featured</div>
+      <div class="card-category">Domestic Markets · Featured</div>
       <h2 class="card-title">S&amp;P 500 Top 20 — Financial Analysis Dashboard</h2>
       <p class="card-excerpt">DCF, DDM, Gordon Growth, and price/EV multiples valuation analysis across the top 20 S&amp;P 500 companies. Built using live data from yfinance with no API key required.</p>
       <div class="card-meta"><span>March 2026</span><span class="read-time">Notebook</span></div>
     </div>
     <div class="card" onclick="openPost('posts/gold-monte-carlo-notebook.html')">
-      <div class="card-category">Quantitative Finance</div>
+      <div class="card-category">Quantitative Research</div>
       <h2 class="card-title">Monte Carlo Gold Price Simulation</h2>
       <p class="card-excerpt">Simulating future gold price paths using live Gold Futures data and Monte Carlo methods.</p>
       <div class="card-meta"><span>March 2026</span><span class="read-time">Notebook</span></div>
     </div>
     <div class="card" onclick="openPost('posts/gold-fed-monte-carlo-notebook.html')">
-      <div class="card-category">Macroeconomics</div>
+      <div class="card-category">Monetary Policy</div>
       <h2 class="card-title">Gold Price Monte Carlo — Fed Rate Adjusted</h2>
       <p class="card-excerpt">Monte Carlo simulation incorporating historical gold/rate correlation and Polymarket Fed probabilities.</p>
       <div class="card-meta"><span>March 2026</span><span class="read-time">Notebook</span></div>
@@ -311,10 +310,10 @@
   <div class="articles-section">
     <div class="article-list" id="articleList">
 
-      <div class="article-item fade-in d1" data-category="Quant" onclick="openPost('posts/sp500-analysis-notebook.html')">
+      <div class="article-item fade-in d1" data-category="Markets" onclick="openPost('posts/sp500-analysis-notebook.html')">
         <div class="ai-index">01</div>
         <div>
-          <div class="ai-cat">Quantitative Finance</div>
+          <div class="ai-cat">Domestic Markets</div>
           <div class="ai-title">S&amp;P 500 Top 20 — Financial Analysis Dashboard</div>
           <div class="ai-excerpt">DCF, DDM, Gordon Growth, and price/EV multiples valuation analysis across the top 20 S&amp;P 500 companies using live yfinance data.</div>
           <div class="ai-meta"><span>March 2026</span><span style="color:var(--accent)">Notebook</span></div>
@@ -324,17 +323,17 @@
       <div class="article-item fade-in d2" data-category="Quant" onclick="openPost('posts/gold-monte-carlo-notebook.html')">
         <div class="ai-index">02</div>
         <div>
-          <div class="ai-cat">Quantitative Finance</div>
+          <div class="ai-cat">Quantitative Research</div>
           <div class="ai-title">Monte Carlo Gold Price Simulation</div>
           <div class="ai-excerpt">Simulating future gold price paths using live Gold Futures data (GC=F) and Monte Carlo methods to estimate risk and return distributions.</div>
           <div class="ai-meta"><span>March 2026</span><span style="color:var(--accent)">Notebook</span></div>
         </div>
       </div>
 
-      <div class="article-item fade-in d3" data-category="Macro" onclick="openPost('posts/gold-fed-monte-carlo-notebook.html')">
+      <div class="article-item fade-in d3" data-category="Policy" onclick="openPost('posts/gold-fed-monte-carlo-notebook.html')">
         <div class="ai-index">03</div>
         <div>
-          <div class="ai-cat">Macroeconomics</div>
+          <div class="ai-cat">Monetary Policy</div>
           <div class="ai-title">Gold Price Monte Carlo — Fed Rate Adjusted</div>
           <div class="ai-excerpt">Monte Carlo simulation incorporating historical gold/rate correlation and Polymarket Fed rate probabilities for Mar–Jun 2026.</div>
           <div class="ai-meta"><span>March 2026</span><span style="color:var(--accent)">Notebook</span></div>
@@ -351,10 +350,10 @@
         </div>
       </div>
 
-      <div class="article-item fade-in d5" data-category="Research" onclick="openPost('posts/portfolio-management-tracker.html')">
+      <div class="article-item fade-in d5" data-category="Markets" onclick="openPost('posts/portfolio-management-tracker.html')">
         <div class="ai-index">05</div>
         <div>
-          <div class="ai-cat">Portfolio Management</div>
+          <div class="ai-cat">Domestic Markets</div>
           <div class="ai-title">Portfolio Management Tracker</div>
           <div class="ai-excerpt">A live spreadsheet tracking portfolio positions, performance, and key financial metrics.</div>
           <div class="ai-meta"><span>March 2026</span><span style="color:var(--accent)">Live Spreadsheet</span></div>
@@ -379,9 +378,10 @@
       <div>
         <div class="panel-label">Browse Topics</div>
         <div class="topic-list">
-          <div class="topic-item" onclick="filterCategory('Macro')"><span class="topic-name">Macroeconomics</span><span class="topic-count">2 posts</span></div>
-          <div class="topic-item" onclick="filterCategory('Quant')"><span class="topic-name">Quantitative Finance</span><span class="topic-count">2 posts</span></div>
-          <div class="topic-item" onclick="filterCategory('Research')"><span class="topic-name">Portfolio Management</span><span class="topic-count">1 post</span></div>
+          <div class="topic-item" onclick="filterCategory('Macro')"><span class="topic-name">Macroeconomics</span><span class="topic-count">1 post</span></div>
+          <div class="topic-item" onclick="filterCategory('Policy')"><span class="topic-name">Monetary Policy</span><span class="topic-count">1 post</span></div>
+          <div class="topic-item" onclick="filterCategory('Quant')"><span class="topic-name">Quantitative Research</span><span class="topic-count">1 post</span></div>
+          <div class="topic-item" onclick="filterCategory('Markets')"><span class="topic-name">Domestic Markets</span><span class="topic-count">2 posts</span></div>
         </div>
       </div>
 
