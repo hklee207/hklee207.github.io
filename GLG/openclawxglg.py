@@ -265,6 +265,40 @@ def build_whatsapp_scheduling(expert_name: str, project: str, slots: list[str]) 
     )
 
 
+# ── WhatsApp sending ──────────────────────────────────────────────────────────
+
+def send_whatsapp_to(phone: str, message: str) -> None:
+    """Send WhatsApp message to a specific number."""
+    try:
+        import pywhatkit
+    except ImportError:
+        print("  pywhatkit not installed. Run: pip install pywhatkit")
+        return
+
+    result = {"error": None}
+
+    def _send():
+        try:
+            pywhatkit.sendwhatmsg_instantly(
+                phone_no=phone,
+                message=message,
+                wait_time=15,
+                tab_close=True,
+                close_time=3,
+            )
+        except Exception as e:
+            result["error"] = e
+
+    thread = threading.Thread(target=_send)
+    thread.start()
+    thread.join(timeout=20)
+
+    if thread.is_alive():
+        print("  Warning: WhatsApp Web did not respond within 20 seconds.")
+    elif result["error"]:
+        print(f"  WhatsApp error: {result['error']}")
+
+
 # ── WhatsApp notification to Aiden ────────────────────────────────────────────
 
 def send_whatsapp_notification(message: str) -> None:
@@ -324,15 +358,20 @@ def pick_outcome(expert_name: str, korean: bool) -> str:
         print("  Please enter 1-5.")
 
 
-def pick_whatsapp_template(expert: dict, project: str) -> str:
-    print(f"\n  WhatsApp template for {expert['name']}:")
+def pick_whatsapp_template(expert: dict, project: str) -> tuple[str, str]:
+    """Returns (phone, message). Prompts for phone number then sends automatically."""
+    print(f"\n  WhatsApp for {expert['name']}:")
     print("  [1] General PA outreach (ask expert to check inbox)")
     print("  [2] Scheduling request (ask for availability with time slots)")
     print("  [3] Custom — type your own message")
+    print("  [s] Skip — don't send WhatsApp to this expert")
     while True:
-        choice = input("  Choice (1-3): ").strip()
+        choice = input("  Choice (1-3 / s): ").strip().lower()
+        if choice == "s":
+            return "", ""
         if choice == "1":
-            return build_whatsapp_general(expert["name"], project)
+            message = build_whatsapp_general(expert["name"], project)
+            break
         if choice == "2":
             slots = []
             print("  Enter time slots one per line (press Enter twice when done):")
@@ -341,10 +380,19 @@ def pick_whatsapp_template(expert: dict, project: str) -> str:
                 if not slot:
                     break
                 slots.append(slot)
-            return build_whatsapp_scheduling(expert["name"], project, slots)
+            message = build_whatsapp_scheduling(expert["name"], project, slots)
+            break
         if choice == "3":
-            return input("  Enter your message: ").strip()
-        print("  Please enter 1-3.")
+            message = input("  Enter your message: ").strip()
+            break
+        print("  Please enter 1-3 or s.")
+
+    print(f"\n── WhatsApp Draft — {expert['name']} " + "─" * max(0, 42 - len(expert['name'])))
+    print(message)
+    print("─" * 60)
+
+    phone = input(f"  Enter {expert['name']}'s WhatsApp number (e.g. +821012345678): ").strip()
+    return phone, message
 
 
 # ── Main loop ─────────────────────────────────────────────────────────────────
@@ -394,12 +442,14 @@ def main() -> None:
                 print(reply)
                 print("─" * 60)
 
-                # Build and show WhatsApp draft per expert
+                # Send WhatsApp per expert
                 for expert in info["experts"]:
-                    wa_draft = pick_whatsapp_template(expert, info["project"])
-                    print(f"\n── WhatsApp Draft — {expert['name']} " + "─" * max(0, 42 - len(expert['name'])))
-                    print(wa_draft)
-                    print("─" * 60)
+                    phone, message = pick_whatsapp_template(expert, info["project"])
+                    if phone and message:
+                        print(f"  Sending WhatsApp to {expert['name']} ({phone})...")
+                        send_whatsapp_to(phone, message)
+                        print(f"  Sent.")
+                        log("WHATSAPP", phone, f"{expert['name']} — {info['subject'] if 'subject' in info else info['project']}")
 
                 # Send notification to Aiden's WhatsApp
                 if confirm("\nSend yourself a WhatsApp summary notification?"):
