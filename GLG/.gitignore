@@ -1,0 +1,4 @@
+.env
+.email_state.json
+openclaw_log.txt
+__pycache__/
