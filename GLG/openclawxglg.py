@@ -1,15 +1,17 @@
 """
-OpenClaw x GLG — GLG assignment email monitor with AI reply draft + WhatsApp notification
+OpenClaw x GLG — GLG assignment email monitor with AI reply draft + WhatsApp drafts
 
 Only processes emails containing a GLG streamliner consultation link.
 
 Flow:
   1. Monitors Gmail inbox (Outlook emails forwarded here)
   2. Ignores non-GLG emails
-  3. For GLG assignment emails, extracts: project, associate note, expert name/bio, link
-  4. Claude generates a draft reply
-  5. Shows preview — you confirm y/n
-  6. On confirm: prints draft to copy into Outlook + sends WhatsApp notification
+  3. For GLG assignment emails, extracts: project, associate, note, experts (1 or many)
+  4. Claude generates:
+       - One reply email draft to the associate
+       - One WhatsApp message draft per expert
+  5. Shows all drafts in terminal for you to copy
+  6. Sends you a WhatsApp notification summary
 
 Requirements (run on Windows):
   pip install anthropic pywhatkit python-dotenv
@@ -131,78 +133,105 @@ def is_glg_assignment(body: str) -> bool:
 
 def parse_glg_email(body: str) -> dict:
     info = {
-        "project":      "",
-        "associate":    "",
-        "note":         "",
-        "expert_name":  "",
-        "expert_bio":   "",
-        "link":         "",
+        "project":   "",
+        "associate": "",
+        "note":      "",
+        "link":      "",
+        "experts":   [],  # list of {"name": str, "bio": str}
     }
 
     # Extract streamliner link
     match = STREAMLINER_RE.search(body)
-    if match:
-        info["link"] = match.group(0)
+    if not match:
+        return info
+    info["link"] = match.group(0)
+    link_pos = match.end()
 
-    # Extract project name
+    # Extract project name (handles Korean, special chars, brackets)
     project_match = re.search(r"project '(.+?)'", body)
     if project_match:
         info["project"] = project_match.group(1)
 
-    # Extract associate name and note
-    note_match = re.search(r"(\w[\w\s]+?) included the following note:\s*(.+?)(?=\nhttps://|\Z)", body, re.DOTALL)
+    # Extract associate name and note (everything between note header and link)
+    note_match = re.search(
+        r"([\w][\w\s]+?) included the following note:\s*(.+?)(?=\nhttps://)",
+        body, re.DOTALL
+    )
     if note_match:
         info["associate"] = note_match.group(1).strip()
         info["note"] = note_match.group(2).strip()
 
-    # Extract expert name and bio (line after the link)
-    lines = body.splitlines()
-    for i, line in enumerate(lines):
-        if STREAMLINER_RE.search(line) and i + 1 < len(lines):
-            expert_line = lines[i + 1].strip()
-            if expert_line:
-                # Expert name is before " - "
-                parts = expert_line.split(" - ", 1)
-                info["expert_name"] = parts[0].strip()
-                info["expert_bio"] = expert_line
-            break
+    # Extract all experts listed after the link (one per line)
+    after_link = body[link_pos:].strip()
+    for line in after_link.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        parts = line.split(" - ", 1)
+        name = parts[0].strip()
+        bio  = parts[1].strip() if len(parts) > 1 and parts[1].strip() else ""
+        if name:
+            info["experts"].append({"name": name, "bio": bio})
 
     return info
 
 
-# ── Claude reply generation ───────────────────────────────────────────────────
+# ── Claude generation ─────────────────────────────────────────────────────────
 
-def generate_reply(info: dict) -> str:
+def generate_reply_email(info: dict) -> str:
+    """One reply email to the associate."""
     import anthropic
 
+    expert_list = "\n".join(
+        f"- {e['name']}" + (f" ({e['bio']})" if e["bio"] else "")
+        for e in info["experts"]
+    )
+    associate_first = info["associate"].split()[0] if info["associate"] else info["associate"]
+
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-
-    prompt = f"""You are a professional PA assistant helping {YOUR_NAME} at GLG (Gerson Lehrman Group).
-
-{YOUR_NAME} received a GLG assignment email with the following details:
-
-Project: {info['project']}
-Associate: {info['associate']}
-Associate's note: {info['note']}
-Expert: {info['expert_name']}
-Expert bio: {info['expert_bio']}
-Consultation link: {info['link']}
-
-Write a concise, professional reply email from {YOUR_NAME} to {info['associate']}.
-The reply should acknowledge the request and confirm the action {YOUR_NAME} will take based on the note.
-Output the reply body only — start with "Hi {info['associate'].split()[0]}," and end with "Best regards,\\n{YOUR_NAME} Lee"."""
-
     message = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=512,
-        messages=[{"role": "user", "content": prompt}],
+        messages=[{"role": "user", "content": (
+            f"You are a professional PA assistant helping {YOUR_NAME} Lee at GLG.\n\n"
+            f"Assignment details:\n"
+            f"Project: {info['project']}\n"
+            f"Associate: {info['associate']}\n"
+            f"Associate's note: {info['note']}\n"
+            f"Experts assigned:\n{expert_list}\n\n"
+            f"Write a concise professional reply from {YOUR_NAME} to {info['associate']}.\n"
+            f"The note may be in Korean — understand it and respond appropriately in English.\n"
+            f"Acknowledge the request and confirm the action {YOUR_NAME} will take.\n"
+            f"Start with 'Hi {associate_first},' and end with 'Best regards,\\n{YOUR_NAME} Lee'.\n"
+            f"Output the reply body only."
+        )}],
     )
     return message.content[0].text.strip()
 
 
-# ── WhatsApp via pywhatkit ────────────────────────────────────────────────────
+def generate_whatsapp_draft(expert: dict, project: str, note: str) -> str:
+    """One WhatsApp outreach message draft per expert."""
+    import anthropic
 
-def send_whatsapp(message: str) -> None:
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    message = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=256,
+        messages=[{"role": "user", "content": (
+            f"You are helping {YOUR_NAME} Lee, a PA at GLG, reach out to an expert via WhatsApp.\n\n"
+            f"Expert: {expert['name']}" + (f" ({expert['bio']})" if expert["bio"] else "") + "\n"
+            f"Project: {project}\n"
+            f"Context from associate: {note}\n\n"
+            f"Write a short, friendly WhatsApp message from {YOUR_NAME} to schedule/confirm a consultation call.\n"
+            f"Keep it under 5 sentences. Output the message only."
+        )}],
+    )
+    return message.content[0].text.strip()
+
+
+# ── WhatsApp notification to Aiden ───────────────────────────────────────────
+
+def send_whatsapp_notification(message: str) -> None:
     try:
         import pywhatkit
     except ImportError:
@@ -266,33 +295,41 @@ def main() -> None:
 
                 info = parse_glg_email(msg["body"])
 
-                print("\n" + "═" * 56)
+                print("\n" + "═" * 60)
                 print(f"  GLG Assignment Detected")
-                print(f"  Project : {info['project']}")
-                print(f"  From    : {info['associate']} ({msg['sender']})")
-                print(f"  Expert  : {info['expert_name']}")
-                print(f"  Link    : {info['link']}")
-                print("─" * 56)
-                print(f"  Note    : {info['note']}")
-                print("─" * 56)
+                print(f"  Project   : {info['project']}")
+                print(f"  Associate : {info['associate']}")
+                print(f"  Note      : {info['note']}")
+                print(f"  Experts   : {len(info['experts'])}")
+                for e in info["experts"]:
+                    print(f"    - {e['name']}" + (f" ({e['bio']})" if e["bio"] else ""))
+                print(f"  Link      : {info['link']}")
+                print("─" * 60)
 
-                print("\n  Generating reply draft with Claude...")
-                reply = generate_reply(info)
-
-                print("\n── Reply Draft (copy this into Outlook) " + "─" * 17)
+                print("\n  Generating reply email draft...")
+                reply = generate_reply_email(info)
+                print("\n── Reply Email Draft (copy into Outlook → reply to associate) " + "─" * 5)
                 print(reply)
-                print("─" * 56)
+                print("─" * 60)
 
-                if confirm("Send WhatsApp notification for this assignment?"):
-                    whatsapp_msg = (
+                print(f"\n  Generating {len(info['experts'])} WhatsApp draft(s)...")
+                for i, expert in enumerate(info["experts"], 1):
+                    draft = generate_whatsapp_draft(expert, info["project"], info["note"])
+                    print(f"\n── WhatsApp Draft #{i} — {expert['name']} " + "─" * max(0, 40 - len(expert['name'])))
+                    print(draft)
+                    print("─" * 60)
+
+                if confirm("\nSend yourself a WhatsApp summary notification?"):
+                    expert_names = ", ".join(e["name"] for e in info["experts"])
+                    notification = (
                         f"📋 GLG Assignment\n"
                         f"Project: {info['project']}\n"
-                        f"Expert: {info['expert_name']}\n"
-                        f"From: {info['associate']}\n\n"
-                        f"Draft reply ready — check your terminal."
+                        f"From: {info['associate']}\n"
+                        f"Experts ({len(info['experts'])}): {expert_names}\n\n"
+                        f"Drafts ready — check your terminal."
                     )
-                    send_whatsapp(whatsapp_msg)
-                    print("  WhatsApp sent.")
+                    send_whatsapp_notification(notification)
+                    print("  WhatsApp notification sent.")
                     log("WHATSAPP", WHATSAPP_TARGET, msg["subject"])
 
             if not new:
