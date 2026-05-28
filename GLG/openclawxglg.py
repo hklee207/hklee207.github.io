@@ -1,22 +1,26 @@
 """
-OpenClaw x GLG — Outlook inbox monitor with AI reply draft + WhatsApp notification
+OpenClaw x GLG — GLG assignment email monitor with AI reply draft + WhatsApp notification
+
+Only processes emails containing a GLG streamliner consultation link.
 
 Flow:
   1. Monitors Gmail inbox (Outlook emails forwarded here)
-  2. When a new email arrives, Claude generates a draft reply
-  3. Shows preview — you confirm y/n
-  4. On confirm: prints the draft for you to copy into Outlook
-                 + sends you a WhatsApp notification
+  2. Ignores non-GLG emails
+  3. For GLG assignment emails, extracts: project, associate note, expert name/bio, link
+  4. Claude generates a draft reply
+  5. Shows preview — you confirm y/n
+  6. On confirm: prints draft to copy into Outlook + sends WhatsApp notification
 
 Requirements (run on Windows):
   pip install anthropic pywhatkit python-dotenv
 
 Setup:
-  1. Fill in .env (copy from .env.example)
+  1. Fill in .env
   2. Run: python openclawxglg.py
 """
 
 import os
+import re
 import imaplib
 import email
 import time
@@ -37,6 +41,10 @@ IMAP_SERVER           = os.getenv("IMAP_SERVER", "imap.gmail.com")
 IMAP_PORT             = int(os.getenv("IMAP_PORT", "993"))
 POLL_INTERVAL_SECONDS = int(os.getenv("POLL_INTERVAL_SECONDS", "60"))
 YOUR_NAME             = os.getenv("YOUR_NAME", "Aiden")
+
+STREAMLINER_RE = re.compile(
+    r'https://streamliner\.glgresearch\.com/streamliner/#/consultation/\d+[^\s]*'
+)
 
 STATE_FILE = Path(__file__).parent / ".email_state.json"
 LOG_FILE   = Path(__file__).parent / "openclaw_log.txt"
@@ -75,7 +83,8 @@ def parse_header(raw: str) -> str:
 
 
 def fetch_unseen_emails() -> list[dict]:
-    with imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT) as conn:
+    conn = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT)
+    try:
         conn.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
         conn.select("INBOX")
         _, data = conn.search(None, "UNSEEN")
@@ -107,22 +116,86 @@ def fetch_unseen_emails() -> list[dict]:
             })
 
         return results
+    finally:
+        try:
+            conn.logout()
+        except Exception:
+            pass
+
+
+# ── GLG email parser ──────────────────────────────────────────────────────────
+
+def is_glg_assignment(body: str) -> bool:
+    return bool(STREAMLINER_RE.search(body))
+
+
+def parse_glg_email(body: str) -> dict:
+    info = {
+        "project":      "",
+        "associate":    "",
+        "note":         "",
+        "expert_name":  "",
+        "expert_bio":   "",
+        "link":         "",
+    }
+
+    # Extract streamliner link
+    match = STREAMLINER_RE.search(body)
+    if match:
+        info["link"] = match.group(0)
+
+    # Extract project name
+    project_match = re.search(r"project '(.+?)'", body)
+    if project_match:
+        info["project"] = project_match.group(1)
+
+    # Extract associate name and note
+    note_match = re.search(r"(\w[\w\s]+?) included the following note:\s*(.+?)(?=\nhttps://|\Z)", body, re.DOTALL)
+    if note_match:
+        info["associate"] = note_match.group(1).strip()
+        info["note"] = note_match.group(2).strip()
+
+    # Extract expert name and bio (line after the link)
+    lines = body.splitlines()
+    for i, line in enumerate(lines):
+        if STREAMLINER_RE.search(line) and i + 1 < len(lines):
+            expert_line = lines[i + 1].strip()
+            if expert_line:
+                # Expert name is before " - "
+                parts = expert_line.split(" - ", 1)
+                info["expert_name"] = parts[0].strip()
+                info["expert_bio"] = expert_line
+            break
+
+    return info
 
 
 # ── Claude reply generation ───────────────────────────────────────────────────
 
-def generate_reply(sender: str, subject: str, body: str) -> str:
+def generate_reply(info: dict) -> str:
     import anthropic
 
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+    prompt = f"""You are a professional PA assistant helping {YOUR_NAME} at GLG (Gerson Lehrman Group).
+
+{YOUR_NAME} received a GLG assignment email with the following details:
+
+Project: {info['project']}
+Associate: {info['associate']}
+Associate's note: {info['note']}
+Expert: {info['expert_name']}
+Expert bio: {info['expert_bio']}
+Consultation link: {info['link']}
+
+Write a concise, professional reply email from {YOUR_NAME} to {info['associate']}.
+The reply should acknowledge the request and confirm the action {YOUR_NAME} will take based on the note.
+Output the reply body only — start with "Hi {info['associate'].split()[0]}," and end with "Best regards,\\n{YOUR_NAME} Lee"."""
+
     message = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=512,
-        messages=[{"role": "user", "content": (
-            f"You are a professional assistant helping {YOUR_NAME} reply to emails.\n\n"
-            f"Original email:\nFrom: {sender}\nSubject: {subject}\nBody:\n{body[:2000]}\n\n"
-            f"Write a concise, professional reply. Output the reply body only — no subject line, no commentary."
-        )}],
+        messages=[{"role": "user", "content": prompt}],
     )
     return message.content[0].text.strip()
 
@@ -173,6 +246,7 @@ def confirm(prompt: str) -> bool:
 
 def main() -> None:
     print(f"OpenClaw x GLG — monitoring {EMAIL_ADDRESS} every {POLL_INTERVAL_SECONDS}s.")
+    print("Only processing GLG assignment emails with a streamliner link.")
     print("Press Ctrl+C to stop.\n")
 
     seen_ids = load_seen()
@@ -183,33 +257,43 @@ def main() -> None:
             new = [e for e in emails if e["uid"] not in seen_ids]
 
             for msg in new:
+                seen_ids.add(msg["uid"])
+                save_seen(seen_ids)
+
+                if not is_glg_assignment(msg["body"]):
+                    print(f"[{datetime.now().strftime('%H:%M:%S')}] Skipped (no GLG link): {msg['subject']}")
+                    continue
+
+                info = parse_glg_email(msg["body"])
+
                 print("\n" + "═" * 56)
-                print(f"  From    : {msg['sender']}")
-                print(f"  Subject : {msg['subject']}")
-                print(f"  Date    : {msg['date']}")
+                print(f"  GLG Assignment Detected")
+                print(f"  Project : {info['project']}")
+                print(f"  From    : {info['associate']} ({msg['sender']})")
+                print(f"  Expert  : {info['expert_name']}")
+                print(f"  Link    : {info['link']}")
                 print("─" * 56)
-                print(f"  Preview : {msg['body'][:300]}")
+                print(f"  Note    : {info['note']}")
                 print("─" * 56)
 
                 print("\n  Generating reply draft with Claude...")
-                reply = generate_reply(msg["sender"], msg["subject"], msg["body"])
+                reply = generate_reply(info)
 
                 print("\n── Reply Draft (copy this into Outlook) " + "─" * 17)
                 print(reply)
                 print("─" * 56)
 
-                if confirm("Send WhatsApp notification for this email?"):
+                if confirm("Send WhatsApp notification for this assignment?"):
                     whatsapp_msg = (
-                        f"📧 New email from: {msg['sender']}\n"
-                        f"Subject: {msg['subject']}\n\n"
+                        f"📋 GLG Assignment\n"
+                        f"Project: {info['project']}\n"
+                        f"Expert: {info['expert_name']}\n"
+                        f"From: {info['associate']}\n\n"
                         f"Draft reply ready — check your terminal."
                     )
                     send_whatsapp(whatsapp_msg)
                     print("  WhatsApp sent.")
                     log("WHATSAPP", WHATSAPP_TARGET, msg["subject"])
-
-                seen_ids.add(msg["uid"])
-                save_seen(seen_ids)
 
             if not new:
                 print(f"[{datetime.now().strftime('%H:%M:%S')}] No new emails.")
