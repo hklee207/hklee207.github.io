@@ -168,7 +168,7 @@ def parse_glg_email(body: str) -> dict:
         if not line:
             continue
         parts = line.split(" - ", 1)
-        name = parts[0].strip()
+        name = parts[0].strip().rstrip(" -").strip()
         bio  = parts[1].strip() if len(parts) > 1 and parts[1].strip() else ""
         if name:
             info["experts"].append({"name": name, "bio": bio})
