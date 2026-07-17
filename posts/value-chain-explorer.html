@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Value Chain Explorer | Aiden Lee</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:      #07090f;
+      --bg2:     #0d1119;
+      --surface: #141a26;
+      --white:   #f0f2f7;
+      --dim:     #8892a4;
+      --dimmer:  #3d4558;
+      --accent:  #4e8ef7;
+      --accent2: #7eb3ff;
+      --green:   #3ecf8e;
+      --purple:  #a78bfa;
+      --border:  rgba(255,255,255,0.07);
+      --serif:   'Cormorant Garamond', Georgia, serif;
+      --sans:    'Barlow', sans-serif;
+      --cond:    'Barlow Condensed', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--white); line-height: 1.6; }
+
+    header { border-bottom: 1px solid var(--border); background: rgba(7,9,15,0.96); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1320px; margin: 0 auto; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { font-family: var(--cond); font-size: 17px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 12px; }
+    .logo-dot { width: 6px; height: 6px; background: var(--accent); display: inline-block; transform: rotate(45deg); }
+
+    .article-view { max-width: 760px; margin: 0 auto; padding: 60px 48px 90px; }
+    .article-back { display: inline-flex; align-items: center; gap: 10px; font-family: var(--cond); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmer); text-decoration: none; margin-bottom: 44px; transition: color 0.2s; }
+    .article-back:hover { color: var(--accent); }
+    .article-back::before { content: '←'; font-size: 15px; }
+    .article-cat { font-family: var(--cond); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .article-title { font-family: var(--serif); font-size: clamp(30px, 4.5vw, 46px); font-weight: 600; line-height: 1.1; margin-bottom: 16px; }
+    .article-dek { font-size: 17px; color: var(--dim); line-height: 1.75; font-weight: 300; margin-bottom: 24px; }
+    .article-meta { font-family: var(--cond); font-size: 12px; color: var(--dimmer); display: flex; gap: 22px; flex-wrap: wrap; margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--border); letter-spacing: 0.06em; }
+    .article-meta .highlight { color: var(--accent); }
+    .article-body { font-size: 16px; line-height: 1.85; color: #b0b8cc; font-weight: 300; }
+    .article-body p { margin-bottom: 24px; }
+    .article-body strong { color: var(--white); font-weight: 500; }
+    .article-body h2 { font-family: var(--cond); font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmer); margin: 48px 0 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+    .diagram-wrap { background: var(--surface); border: 1px solid var(--border); padding: 32px clamp(14px, 4vw, 40px) 22px; margin-bottom: 24px; }
+    .diagram-caption { margin-top: 12px; font-family: var(--cond); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmer); text-align: center; }
+
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; margin-bottom: 24px; }
+    .step { border-top: 2px solid var(--accent); padding-top: 14px; }
+    .step-num { font-family: var(--cond); font-size: 11px; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 5px; }
+    .step-title { font-family: var(--serif); font-size: 19px; font-weight: 600; color: var(--white); margin-bottom: 5px; }
+    .step-body { font-size: 13px; color: var(--dim); line-height: 1.6; font-weight: 300; }
+    @media (max-width: 640px) { .steps { grid-template-columns: 1fr 1fr; } }
+
+    .feature-list { list-style: none; margin-bottom: 24px; }
+    .feature-list li { padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .feature-list li:first-child { border-top: 1px solid var(--border); }
+    .feature-title { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+    .feature-body { font-size: 14px; color: var(--dim); line-height: 1.65; font-weight: 300; }
+
+    .note-box { background: rgba(78,142,247,0.06); border: 1px solid rgba(78,142,247,0.2); padding: 20px 24px; margin-top: 40px; font-size: 14px; color: var(--dim); line-height: 1.7; }
+    .note-box strong { color: var(--accent); }
+
+    footer { border-top: 1px solid var(--border); color: var(--dimmer); padding: 36px 48px; text-align: center; font-size: 13px; font-family: var(--cond); letter-spacing: 0.06em; }
+
+    @media (max-width: 700px) {
+      .header-inner { padding: 0 20px; }
+      .article-view { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="../index.html"><span class="logo-dot"></span>Aiden Lee</a>
+  </div>
+</header>
+
+<div class="article-view">
+  <a class="article-back" href="../index.html">Back to all posts</a>
+  <div class="article-cat">Projects &amp; Builds · Industry Tools</div>
+  <h1 class="article-title">Value Chain Explorer</h1>
+  <p class="article-dek">Type one company name. Get its mapped value chain, its highest-impact recent news, and the experts positioned to speak to each story — with search-ready keywords already written.</p>
+  <div class="article-meta">
+    <span>July 2026</span>
+    <span class="highlight">Live internal tool</span>
+    <span>Built solo · LLM-powered research app</span>
+    <span>English &amp; Korean</span>
+  </div>
+
+  <div class="article-body">
+    <h2>What it is</h2>
+    <p>Value Chain Explorer is a research tool I built for business-development prep in the expert-network industry. An associate types an anchor company — a prospect, a client, anything relevant to a mandate — and the tool reads recent news and public sources, works out who that company buys from, sells to, and depends on internally, and lays it out as an interactive map. Every news signal it finds is scored by how much it actually matters to that company and pinned to the exact part of the chain it affects.</p>
+    <p>The output is not just a map. <strong>Each signal arrives with the relevant experts already matched to it</strong>, and their database search filters pre-written — company, title, industry, function, region — so an associate can go from "what's happening with this company" to a shortlist of experts to source in one motion.</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 640 210" width="100%" height="auto" role="img" aria-label="Diagram: an anchor company connected to upstream, downstream, and corporate branches of its value chain">
+        <line x1="320" y1="105" x2="150" y2="50" stroke="#4e8ef7" stroke-width="1.25" stroke-dasharray="2 5" opacity="0.7"/>
+        <line x1="320" y1="105" x2="490" y2="50" stroke="#3ecf8e" stroke-width="1.25" stroke-dasharray="2 5" opacity="0.7"/>
+        <line x1="320" y1="105" x2="320" y2="172" stroke="#a78bfa" stroke-width="1.25" stroke-dasharray="2 5" opacity="0.7"/>
+        <rect x="76" y="31" width="148" height="34" rx="2" fill="none" stroke="#4e8ef7" stroke-width="1.25"/>
+        <text x="150" y="52.5" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-size="11" font-weight="600" letter-spacing="1.5" fill="#4e8ef7">UPSTREAM</text>
+        <rect x="416" y="31" width="148" height="34" rx="2" fill="none" stroke="#3ecf8e" stroke-width="1.25"/>
+        <text x="490" y="52.5" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-size="11" font-weight="600" letter-spacing="1.5" fill="#3ecf8e">DOWNSTREAM</text>
+        <rect x="246" y="155" width="148" height="34" rx="2" fill="none" stroke="#a78bfa" stroke-width="1.25"/>
+        <text x="320" y="176.5" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-size="11" font-weight="600" letter-spacing="1.5" fill="#a78bfa">CORPORATE</text>
+        <rect x="258" y="88" width="124" height="34" rx="2" fill="#4e8ef7"/>
+        <text x="320" y="109.5" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-size="12" font-weight="700" letter-spacing="0.5" fill="#07090f">ANCHOR CO.</text>
+      </svg>
+      <div class="diagram-caption">Suppliers · customers · leadership &amp; strategy — mapped from one search</div>
+    </div>
+
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Search</div>
+        <div class="step-body">Reads recent news and filings on the company, filtering out routine PR for developments that actually move the business.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Map</div>
+        <div class="step-body">Places each finding on the chain: who supplies the company, who buys from it, and what's moving inside its own leadership and strategy.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Score</div>
+        <div class="step-body">Ranks every signal by how hard it actually hits the company — revenue, cost, or risk — highest impact first.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Match</div>
+        <div class="step-body">Attaches the experts suited to each signal, with database search terms already drafted and ready to paste.</div>
+      </div>
+    </div>
+
+    <h2>Why it matters</h2>
+    <ul class="feature-list">
+      <li>
+        <div class="feature-title">Cuts the manual cross-referencing out of prep</div>
+        <div class="feature-body">What used to mean separately checking recent news, sketching a supply chain by hand, and then searching an expert database by guesswork now happens in one pass.</div>
+      </li>
+      <li>
+        <div class="feature-title">Surfaces experts you wouldn't have thought to search for</div>
+        <div class="feature-body">Because the map goes a layer deeper than the obvious players — a chipmaker's equipment supplier, that supplier's biggest customer — it turns up sourcing angles a first-pass search alone would miss.</div>
+      </li>
+      <li>
+        <div class="feature-title">Hands you the client-ready line, not just the data</div>
+        <div class="feature-body">Every signal comes with a plain-language reason it matters to that company — the exact framing an associate can repeat straight into a client conversation.</div>
+      </li>
+      <li>
+        <div class="feature-title">Runs in Korean as well as English</div>
+        <div class="feature-body">Every label and every generated description can be switched to Korean on demand, so it's usable directly inside a Korean-language client engagement, not just as a translation step afterward.</div>
+      </li>
+      <li>
+        <div class="feature-title">Any node becomes its own starting point</div>
+        <div class="feature-body">Click a supplier or customer inside the map and re-center the whole tool on it — useful the moment a conversation shifts from the prospect to a name that came up inside its chain.</div>
+      </li>
+    </ul>
+
+    <div class="note-box"><strong>Access note.</strong> The live tool runs behind an access code for internal use at an expert-network firm, so it isn't publicly linkable. Happy to walk through it — <a href="mailto:aidenleez207@gmail.com" style="color:var(--accent)">get in touch</a>.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Aiden Lee</div>
+  <p>&copy; 2026 · All views are personal</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hypothesis CDD Predictor | Aiden Lee</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:      #07090f;
+      --bg2:     #0d1119;
+      --surface: #141a26;
+      --white:   #f0f2f7;
+      --dim:     #8892a4;
+      --dimmer:  #3d4558;
+      --accent:  #4e8ef7;
+      --accent2: #7eb3ff;
+      --border:  rgba(255,255,255,0.07);
+      --serif:   'Cormorant Garamond', Georgia, serif;
+      --sans:    'Barlow', sans-serif;
+      --cond:    'Barlow Condensed', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--white); line-height: 1.6; }
+
+    header { border-bottom: 1px solid var(--border); background: rgba(7,9,15,0.96); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1320px; margin: 0 auto; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { font-family: var(--cond); font-size: 17px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 12px; }
+    .logo-dot { width: 6px; height: 6px; background: var(--accent); display: inline-block; transform: rotate(45deg); }
+
+    .article-view { max-width: 760px; margin: 0 auto; padding: 60px 48px 90px; }
+    .article-back { display: inline-flex; align-items: center; gap: 10px; font-family: var(--cond); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmer); text-decoration: none; margin-bottom: 44px; transition: color 0.2s; }
+    .article-back:hover { color: var(--accent); }
+    .article-back::before { content: '←'; font-size: 15px; }
+    .article-cat { font-family: var(--cond); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .article-title { font-family: var(--serif); font-size: clamp(30px, 4.5vw, 46px); font-weight: 600; line-height: 1.1; margin-bottom: 16px; }
+    .article-dek { font-size: 17px; color: var(--dim); line-height: 1.75; font-weight: 300; margin-bottom: 24px; }
+    .article-meta { font-family: var(--cond); font-size: 12px; color: var(--dimmer); display: flex; gap: 22px; flex-wrap: wrap; margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--border); letter-spacing: 0.06em; }
+    .article-meta .highlight { color: var(--accent); }
+    .article-body { font-size: 16px; line-height: 1.85; color: #b0b8cc; font-weight: 300; }
+    .article-body p { margin-bottom: 24px; }
+    .article-body strong { color: var(--white); font-weight: 500; }
+    .article-body h2 { font-family: var(--cond); font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmer); margin: 48px 0 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-bottom: 24px; }
+    .step { border-top: 2px solid var(--accent); padding-top: 14px; }
+    .step-num { font-family: var(--cond); font-size: 11px; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 5px; }
+    .step-title { font-family: var(--serif); font-size: 19px; font-weight: 600; color: var(--white); margin-bottom: 5px; }
+    .step-body { font-size: 13px; color: var(--dim); line-height: 1.6; font-weight: 300; }
+    @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
+
+    .feature-list { list-style: none; margin-bottom: 24px; }
+    .feature-list li { padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .feature-list li:first-child { border-top: 1px solid var(--border); }
+    .feature-title { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+    .feature-body { font-size: 14px; color: var(--dim); line-height: 1.65; font-weight: 300; }
+
+    .cta-btn { display: inline-block; margin-top: 8px; padding: 13px 28px; background: var(--accent); color: #fff; font-family: var(--cond); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+    .cta-btn:hover { background: var(--accent2); }
+
+    footer { border-top: 1px solid var(--border); color: var(--dimmer); padding: 36px 48px; text-align: center; font-size: 13px; font-family: var(--cond); letter-spacing: 0.06em; }
+
+    @media (max-width: 700px) {
+      .header-inner { padding: 0 20px; }
+      .article-view { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="../index.html"><span class="logo-dot"></span>Aiden Lee</a>
+  </div>
+</header>
+
+<div class="article-view">
+  <a class="article-back" href="../index.html">Back to all posts</a>
+  <div class="article-cat">Projects &amp; Builds · Consulting Tech</div>
+  <h1 class="article-title">Hypothesis CDD Predictor</h1>
+  <p class="article-dek">A web app that drafts the hypothesis tree for a commercial due diligence engagement — MECE-checked scenarios, expert profiles, and confirm-or-kill evidence, generated in one pass.</p>
+  <div class="article-meta">
+    <span>June 2026</span>
+    <span class="highlight">Open source</span>
+    <span>Built solo · Flask + Claude API</span>
+  </div>
+
+  <div class="article-body">
+    <h2>What it is</h2>
+    <p>Every commercial due diligence (CDD) engagement starts the same way: a consulting team turns a vague client question into a structured issue tree — the key question at the top, five to seven testable scenarios beneath it, and the sub-hypotheses each one has to survive. That skeleton-building phase is manual, repetitive, and always due yesterday.</p>
+    <p>Hypothesis CDD Predictor automates it. You give it the engagement context — the reference company, what the client wants to learn, and the screening questions you'd put to an expert — and it returns a <strong>full, ranked hypothesis tree</strong>: an issue statement, value-driver scenarios with hypotheses and sub-hypotheses, MECE validation on each branch, and probability estimates across the scenario set.</p>
+
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Frame</div>
+        <div class="step-body">Synthesizes the CDD issue statement from the project context and generates 5–7 scenarios grounded in value drivers: market dynamics, operating model, competition, growth, and risk.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Validate &amp; rank</div>
+        <div class="step-body">Checks every scenario against MECE principles, extracts trigger keywords from your screening questions, and ranks scenarios by how strongly the signals match.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Test</div>
+        <div class="step-body">Attaches suggested expert profiles to each branch, each paired with the evidence that would confirm the hypothesis — and the evidence that would kill it.</div>
+      </div>
+    </div>
+
+    <h2>Features</h2>
+    <ul class="feature-list">
+      <li>
+        <div class="feature-title">Interactive hypothesis tree</div>
+        <div class="feature-body">A clickable SVG hierarchy from issue to scenarios to sub-hypotheses, with each scenario's "so what" logic stated in plain language.</div>
+      </li>
+      <li>
+        <div class="feature-title">Explore &amp; expand</div>
+        <div class="feature-body">Confirm a sub-hypothesis and the tool generates the next depth of the tree — new sub-sub-hypotheses with fresh expert recommendations — so the tree grows with the engagement.</div>
+      </li>
+      <li>
+        <div class="feature-title">Your judgement stays in the loop</div>
+        <div class="feature-body">Accept or reject suggested experts, inject your own custom hypotheses (sub-hypotheses are generated for them automatically), and export the whole tree with status tracking to CSV.</div>
+      </li>
+    </ul>
+
+    <p>Built with a Flask backend, a vanilla-JavaScript frontend, and the Claude API for generation.</p>
+
+    <p><a class="cta-btn" href="https://github.com/hklee207/cdd-predictor" target="_blank" rel="noopener">View on GitHub →</a></p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Aiden Lee</div>
+  <p>&copy; 2026 · All views are personal</p>
+</footer>
+</body>
+</html>

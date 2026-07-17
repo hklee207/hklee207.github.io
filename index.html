@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aiden Lee · Economics & Finance</title>
+  <title>Aiden Lee · Rigorous Thinking, Real-World Execution</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -234,6 +234,7 @@
   <div class="header-inner">
     <a class="logo" onclick="showPage('home')"><span class="logo-dot"></span>Aiden Lee</a>
     <nav>
+      <a onclick="filterCategory('Projects')">Projects &amp; Builds</a>
       <a onclick="filterCategory('Macro')">Macroeconomics</a>
       <a onclick="filterCategory('Policy')">Monetary Policy</a>
       <a onclick="filterCategory('Quant')">Quantitative Research</a>
@@ -248,11 +249,12 @@
 <div id="page-home" class="page active">
   <section class="hero">
     <div class="fade-in d1">
-      <div class="hero-date">March 2026 · Independent Analysis</div>
-      <h1 class="hero-headline">Rigorous thinking on <em>economics</em> &amp; financial markets</h1>
-      <p class="hero-sub">Independent research and commentary at the intersection of quantitative analysis, macroeconomics, and global finance — written by Aiden Lee, IOE student at the University of Michigan.</p>
+      <div class="hero-date">July 2026 · Research &amp; Builds</div>
+      <h1 class="hero-headline">Rigorous thinking, <em>real-world</em> execution</h1>
+      <p class="hero-sub">Research and working tools at the intersection of economics, finance, and industry — from quantitative market models to AI-powered products shipped for real teams and real workflows. Written and built by Aiden Lee, IOE student at the University of Michigan.</p>
       <div class="hero-tags">
         <button class="tag active" onclick="filterCategory('All')">All</button>
+        <button class="tag" onclick="filterCategory('Projects')">Projects &amp; Builds</button>
         <button class="tag" onclick="filterCategory('Macro')">Macroeconomics</button>
         <button class="tag" onclick="filterCategory('Policy')">Monetary Policy</button>
         <button class="tag" onclick="filterCategory('Quant')">Quantitative Research</button>
@@ -261,31 +263,53 @@
     </div>
     <div class="hero-sidebar fade-in d3">
       <div class="sidebar-label">Featured Work</div>
-      <div class="sidebar-item" onclick="openPost('posts/sp500-analysis-notebook.html')">
+      <div class="sidebar-item" onclick="openPost('posts/value-chain-explorer.html')">
         <div class="si-num">01</div>
+        <div class="si-title">Value Chain Explorer</div>
+        <div class="si-meta">Projects · Live Internal Tool</div>
+      </div>
+      <div class="sidebar-item" onclick="openPost('posts/apeul.html')">
+        <div class="si-num">02</div>
+        <div class="si-title">Apeul — Your A+ Course Companion</div>
+        <div class="si-meta">Projects · Live Product</div>
+      </div>
+      <div class="sidebar-item" onclick="openPost('posts/cdd-predictor.html')">
+        <div class="si-num">03</div>
+        <div class="si-title">Hypothesis CDD Predictor</div>
+        <div class="si-meta">Projects · Open Source</div>
+      </div>
+      <div class="sidebar-item" onclick="openPost('posts/sp500-analysis-notebook.html')">
+        <div class="si-num">04</div>
         <div class="si-title">S&amp;P 500 Top 20 — Financial Analysis Dashboard</div>
         <div class="si-meta">Quantitative · Notebook</div>
-      </div>
-      <div class="sidebar-item" onclick="openPost('posts/gold-monte-carlo-notebook.html')">
-        <div class="si-num">02</div>
-        <div class="si-title">Monte Carlo Gold Price Simulation</div>
-        <div class="si-meta">Quantitative · Notebook</div>
-      </div>
-      <div class="sidebar-item" onclick="openPost('posts/gold-fed-monte-carlo-notebook.html')">
-        <div class="si-num">03</div>
-        <div class="si-title">Gold Price Monte Carlo — Fed Rate Adjusted</div>
-        <div class="si-meta">Macro · Notebook</div>
-      </div>
-      <div class="sidebar-item" onclick="openPost('posts/gold-price-tracker.html')">
-        <div class="si-num">04</div>
-        <div class="si-title">Gold Price Tracker</div>
-        <div class="si-meta">Macro · Live Spreadsheet</div>
       </div>
     </div>
   </section>
 
-  <div class="section-divider"><h2>Featured</h2></div>
+  <div class="section-divider"><h2>Projects &amp; Builds</h2></div>
   <div class="featured-grid fade-in d2">
+    <div class="card card-primary" onclick="openPost('posts/value-chain-explorer.html')">
+      <div class="card-category">Projects &amp; Builds · Featured</div>
+      <h2 class="card-title">Value Chain Explorer</h2>
+      <p class="card-excerpt">Type one company name — get its mapped value chain, its highest-impact news scored and pinned to the chain, and the experts matched to each signal with search filters pre-written. Live internal tool, English &amp; Korean.</p>
+      <div class="card-meta"><span>July 2026</span><span class="read-time">Live Tool</span></div>
+    </div>
+    <div class="card" onclick="openPost('posts/apeul.html')">
+      <div class="card-category">EdTech · Team Project</div>
+      <h2 class="card-title">Apeul — Your A+ Course Companion</h2>
+      <p class="card-excerpt">A live study platform that turns lecture slides into notes, cheat sheets, and practice questions, with an in-context AI tutor.</p>
+      <div class="card-meta"><span>2026</span><span class="read-time">apeul.com</span></div>
+    </div>
+    <div class="card" onclick="openPost('posts/cdd-predictor.html')">
+      <div class="card-category">Consulting Tech</div>
+      <h2 class="card-title">Hypothesis CDD Predictor</h2>
+      <p class="card-excerpt">A Flask + Claude app that drafts the full MECE hypothesis tree for a commercial due diligence engagement in one pass.</p>
+      <div class="card-meta"><span>June 2026</span><span class="read-time">Open Source</span></div>
+    </div>
+  </div>
+
+  <div class="section-divider"><h2>Featured Research</h2></div>
+  <div class="featured-grid fade-in d3">
     <div class="card card-primary" onclick="openPost('posts/sp500-analysis-notebook.html')">
       <div class="card-category">Capital Markets · Featured</div>
       <h2 class="card-title">S&amp;P 500 Top 20 — Financial Analysis Dashboard</h2>
@@ -310,8 +334,38 @@
   <div class="articles-section">
     <div class="article-list" id="articleList">
 
-      <div class="article-item fade-in d1" data-category="Markets" onclick="openPost('posts/sp500-analysis-notebook.html')">
+      <div class="article-item fade-in d1" data-category="Projects" onclick="openPost('posts/value-chain-explorer.html')">
         <div class="ai-index">01</div>
+        <div>
+          <div class="ai-cat">Projects &amp; Builds</div>
+          <div class="ai-title">Value Chain Explorer</div>
+          <div class="ai-excerpt">An LLM-powered research tool for BD prep: one company name in, a mapped value chain out — news signals scored by business impact and experts matched to each story, in English and Korean.</div>
+          <div class="ai-meta"><span>July 2026</span><span style="color:var(--accent)">Live Internal Tool</span></div>
+        </div>
+      </div>
+
+      <div class="article-item fade-in d1" data-category="Projects" onclick="openPost('posts/apeul.html')">
+        <div class="ai-index">02</div>
+        <div>
+          <div class="ai-cat">Projects &amp; Builds</div>
+          <div class="ai-title">Apeul — Your A+ Course Companion</div>
+          <div class="ai-excerpt">A study platform built with my teammates: upload lecture slides, annotate them, and generate notes, cheat sheets, and practice questions — with an AI tutor grounded in the slide you're reading.</div>
+          <div class="ai-meta"><span>2026</span><span style="color:var(--accent)">Live at apeul.com</span></div>
+        </div>
+      </div>
+
+      <div class="article-item fade-in d2" data-category="Projects" onclick="openPost('posts/cdd-predictor.html')">
+        <div class="ai-index">03</div>
+        <div>
+          <div class="ai-cat">Projects &amp; Builds</div>
+          <div class="ai-title">Hypothesis CDD Predictor</div>
+          <div class="ai-excerpt">A Flask + Claude web app that generates the hypothesis tree for a commercial due diligence engagement — MECE-checked scenarios, ranked by keyword signal, with confirm-or-kill expert evidence.</div>
+          <div class="ai-meta"><span>June 2026</span><span style="color:var(--accent)">Open Source</span></div>
+        </div>
+      </div>
+
+      <div class="article-item fade-in d2" data-category="Markets" onclick="openPost('posts/sp500-analysis-notebook.html')">
+        <div class="ai-index">04</div>
         <div>
           <div class="ai-cat">Capital Markets</div>
           <div class="ai-title">S&amp;P 500 Top 20 — Financial Analysis Dashboard</div>
@@ -320,8 +374,8 @@
         </div>
       </div>
 
-      <div class="article-item fade-in d2" data-category="Quant" onclick="openPost('posts/gold-monte-carlo-notebook.html')">
-        <div class="ai-index">02</div>
+      <div class="article-item fade-in d3" data-category="Quant" onclick="openPost('posts/gold-monte-carlo-notebook.html')">
+        <div class="ai-index">05</div>
         <div>
           <div class="ai-cat">Quantitative Research</div>
           <div class="ai-title">Monte Carlo Gold Price Simulation</div>
@@ -331,7 +385,7 @@
       </div>
 
       <div class="article-item fade-in d3" data-category="Policy" onclick="openPost('posts/gold-fed-monte-carlo-notebook.html')">
-        <div class="ai-index">03</div>
+        <div class="ai-index">06</div>
         <div>
           <div class="ai-cat">Monetary Policy</div>
           <div class="ai-title">Gold Price Monte Carlo — Fed Rate Adjusted</div>
@@ -341,7 +395,7 @@
       </div>
 
       <div class="article-item fade-in d4" data-category="Macro" onclick="openPost('posts/gold-price-tracker.html')">
-        <div class="ai-index">04</div>
+        <div class="ai-index">07</div>
         <div>
           <div class="ai-cat">Macroeconomics</div>
           <div class="ai-title">Gold Price Tracker</div>
@@ -351,7 +405,7 @@
       </div>
 
       <div class="article-item fade-in d5" data-category="Markets" onclick="openPost('posts/portfolio-management-tracker.html')">
-        <div class="ai-index">05</div>
+        <div class="ai-index">08</div>
         <div>
           <div class="ai-cat">Capital Markets</div>
           <div class="ai-title">Portfolio Management Tracker</div>
@@ -367,7 +421,7 @@
       <div class="about-block">
         <div class="about-avatar">AL</div>
         <div class="about-name">Aiden Lee</div>
-        <div class="about-bio">Hi! I'm Aiden (Hyunku) Lee, an Industrial &amp; Operations Engineering student at the University of Michigan with huge passion in macroeconomics, finance, and quant. Having worked across supply chains in Singapore, logistics networks in Seoul, and research labs in Chicago, I write about the economic forces that shape the world I've been lucky enough to move through.</div>
+        <div class="about-bio">Hi! I'm Aiden (Hyunku) Lee, an Industrial &amp; Operations Engineering student at the University of Michigan with huge passion in macroeconomics, finance, and quant. Having worked across supply chains in Singapore, logistics networks in Seoul, and research labs in Chicago, I write about the economic forces that shape the world I've been lucky enough to move through — and build tools that put that thinking to work.</div>
         <div class="about-links">
           <a href="https://www.linkedin.com/in/hyunku-lee-2705b7249/" target="_blank" class="about-link">LinkedIn</a>
           <a href="https://github.com/hklee207" target="_blank" class="about-link">GitHub</a>
@@ -378,6 +432,7 @@
       <div>
         <div class="panel-label">Browse Topics</div>
         <div class="topic-list">
+          <div class="topic-item" onclick="filterCategory('Projects')"><span class="topic-name">Projects &amp; Builds</span><span class="topic-count">3 posts</span></div>
           <div class="topic-item" onclick="filterCategory('Macro')"><span class="topic-name">Macroeconomics</span><span class="topic-count">1 post</span></div>
           <div class="topic-item" onclick="filterCategory('Policy')"><span class="topic-name">Monetary Policy</span><span class="topic-count">1 post</span></div>
           <div class="topic-item" onclick="filterCategory('Quant')"><span class="topic-name">Quantitative Research</span><span class="topic-count">1 post</span></div>
@@ -411,7 +466,7 @@
   </section>
 
   <footer>
-    <div class="footer-logo">Aiden Lee · Economics &amp; Finance</div>
+    <div class="footer-logo">Aiden Lee · Economics · Finance · Industry</div>
     <p>&copy; 2026 · Independent research · All views are personal · <a href="mailto:aidenleez207@gmail.com" style="color:var(--dimmer)">aidenleez207@gmail.com</a></p>
   </footer>
 </div>
@@ -424,7 +479,7 @@
       <div>
         <div class="about-page-title">About the Author</div>
         <div class="about-page-name">Hyunku (Aiden) Lee</div>
-        <p style="font-size:15px; color:var(--dim); line-height:1.75; margin-top:12px; font-weight:300;">Hi! I'm Aiden (Hyunku) Lee, an Industrial &amp; Operations Engineering student at the University of Michigan with huge passion in macroeconomics, finance, and quant. Having worked across supply chains in Singapore, logistics networks in Seoul, and research labs in Chicago, I write about the economic forces that shape the world I've been lucky enough to move through.</p>
+        <p style="font-size:15px; color:var(--dim); line-height:1.75; margin-top:12px; font-weight:300;">Hi! I'm Aiden (Hyunku) Lee, an Industrial &amp; Operations Engineering student at the University of Michigan with huge passion in macroeconomics, finance, and quant. Having worked across supply chains in Singapore, logistics networks in Seoul, and research labs in Chicago, I write about the economic forces that shape the world I've been lucky enough to move through — and build tools that put that thinking to work.</p>
         <div class="about-page-links">
           <a href="https://www.linkedin.com/in/hyunku-lee-2705b7249/" target="_blank" class="about-page-link">LinkedIn</a>
           <a href="https://github.com/hklee207" target="_blank" class="about-page-link">GitHub</a>
@@ -436,7 +491,7 @@
     <div class="about-section fade-in d2">
       <div class="about-section-title">About This Site</div>
       <div class="about-body">
-        <p>I started this site as a place to think in public about economics and finance — the kind of thinking that doesn't fit neatly into a classroom or a slide deck. I'm an engineer by training, which means I tend to approach economic questions the way I'd approach an optimization problem: define the objective, map the constraints, and be honest about the uncertainty.</p>
+        <p>I started this site as a place to think in public about economics and finance — the kind of thinking that doesn't fit neatly into a classroom or a slide deck. I'm an engineer by training, which means I tend to approach economic questions the way I'd approach an optimization problem: define the objective, map the constraints, and be honest about the uncertainty. Increasingly, it's also where I show that thinking executed: research tools, AI products, and workflow software built for real teams and real industry problems.</p>
         <p>What interests me most is the boundary between the quantitative and the qualitative — where supply chain network models meet monetary policy, where logistics data illuminates consumer behavior, where operations research tools can sharpen macroeconomic intuition.</p>
         <p>I grew up in Seoul, spent time in the US and Singapore, and served in the ROK Army as a logistics officer and interpreter. Each of those experiences left me more curious about how economies actually work in practice, not just in theory.</p>
       </div>
@@ -491,7 +546,7 @@
     </div>
   </div>
   <footer>
-    <div class="footer-logo">Aiden Lee · Economics &amp; Finance</div>
+    <div class="footer-logo">Aiden Lee · Economics · Finance · Industry</div>
     <p>&copy; 2026 · Independent research · All views are personal</p>
   </footer>
 </div>

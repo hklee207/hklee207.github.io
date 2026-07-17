@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apeul — Your A+ Course Companion | Aiden Lee</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:      #07090f;
+      --bg2:     #0d1119;
+      --surface: #141a26;
+      --white:   #f0f2f7;
+      --dim:     #8892a4;
+      --dimmer:  #3d4558;
+      --accent:  #4e8ef7;
+      --accent2: #7eb3ff;
+      --border:  rgba(255,255,255,0.07);
+      --serif:   'Cormorant Garamond', Georgia, serif;
+      --sans:    'Barlow', sans-serif;
+      --cond:    'Barlow Condensed', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--white); line-height: 1.6; }
+
+    header { border-bottom: 1px solid var(--border); background: rgba(7,9,15,0.96); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1320px; margin: 0 auto; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { font-family: var(--cond); font-size: 17px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 12px; }
+    .logo-dot { width: 6px; height: 6px; background: var(--accent); display: inline-block; transform: rotate(45deg); }
+
+    .article-view { max-width: 760px; margin: 0 auto; padding: 60px 48px 90px; }
+    .article-back { display: inline-flex; align-items: center; gap: 10px; font-family: var(--cond); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmer); text-decoration: none; margin-bottom: 44px; transition: color 0.2s; }
+    .article-back:hover { color: var(--accent); }
+    .article-back::before { content: '←'; font-size: 15px; }
+    .article-cat { font-family: var(--cond); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .article-title { font-family: var(--serif); font-size: clamp(30px, 4.5vw, 46px); font-weight: 600; line-height: 1.1; margin-bottom: 16px; }
+    .article-dek { font-size: 17px; color: var(--dim); line-height: 1.75; font-weight: 300; margin-bottom: 24px; }
+    .article-meta { font-family: var(--cond); font-size: 12px; color: var(--dimmer); display: flex; gap: 22px; flex-wrap: wrap; margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--border); letter-spacing: 0.06em; }
+    .article-meta .highlight { color: var(--accent); }
+    .article-body { font-size: 16px; line-height: 1.85; color: #b0b8cc; font-weight: 300; }
+    .article-body p { margin-bottom: 24px; }
+    .article-body strong { color: var(--white); font-weight: 500; }
+    .article-body h2 { font-family: var(--cond); font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmer); margin: 48px 0 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+
+    .feature-list { list-style: none; margin-bottom: 24px; }
+    .feature-list li { padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .feature-list li:first-child { border-top: 1px solid var(--border); }
+    .feature-title { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+    .feature-body { font-size: 14px; color: var(--dim); line-height: 1.65; font-weight: 300; }
+
+    .cta-btn { display: inline-block; margin-top: 8px; padding: 13px 28px; background: var(--accent); color: #fff; font-family: var(--cond); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+    .cta-btn:hover { background: var(--accent2); }
+
+    footer { border-top: 1px solid var(--border); color: var(--dimmer); padding: 36px 48px; text-align: center; font-size: 13px; font-family: var(--cond); letter-spacing: 0.06em; }
+
+    @media (max-width: 700px) {
+      .header-inner { padding: 0 20px; }
+      .article-view { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="../index.html"><span class="logo-dot"></span>Aiden Lee</a>
+  </div>
+</header>
+
+<div class="article-view">
+  <a class="article-back" href="../index.html">Back to all posts</a>
+  <div class="article-cat">Projects &amp; Builds · EdTech</div>
+  <h1 class="article-title">Apeul — Your A+ Course Companion</h1>
+  <p class="article-dek">A live study platform that turns lecture slides into notes, cheat sheets, and practice questions — with an AI tutor that answers your questions right on the slide.</p>
+  <div class="article-meta">
+    <span>2026</span>
+    <span class="highlight">Live at apeul.com</span>
+    <span>Team project</span>
+  </div>
+
+  <div class="article-body">
+    <h2>What it is</h2>
+    <p>Apeul is a study companion my teammates and I have been building and shipping. The idea is simple: your professor's lecture slides are already the best summary of the course — so instead of pasting fragments into a general-purpose chatbot, Apeul works directly on the slides themselves.</p>
+    <p>A student uploads a lecture deck (PDF or PPTX, up to 100 pages), annotates it the way they would on paper, and generates study material from it. When something doesn't click — say, <em>"why can λ be 0 but v can't?"</em> scribbled next to an eigenvalue slide — the built-in <strong>AI tutor answers in the context of that exact slide</strong>, with full LaTeX rendering for the math.</p>
+
+    <h2>Features</h2>
+    <ul class="feature-list">
+      <li>
+        <div class="feature-title">Annotate directly on slides</div>
+        <div class="feature-body">Highlights, text boxes, and handwritten notes — the workflow students already have, kept in one place per course.</div>
+      </li>
+      <li>
+        <div class="feature-title">Generate real study material</div>
+        <div class="feature-body">Notes, cheat sheets, and practice questions produced from the actual course content — including questions generated from uploaded past exams.</div>
+      </li>
+      <li>
+        <div class="feature-title">An AI tutor that knows where you are</div>
+        <div class="feature-body">Ask about the concept on the slide in front of you and get an explanation grounded in that material, not a generic answer.</div>
+      </li>
+      <li>
+        <div class="feature-title">Built for real coursework</div>
+        <div class="feature-body">Course organization with timetable integration, LaTeX formula rendering for quantitative subjects, and private per-user file storage.</div>
+      </li>
+    </ul>
+
+    <p><a class="cta-btn" href="https://apeul.com" target="_blank" rel="noopener">Visit apeul.com →</a></p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Aiden Lee</div>
+  <p>&copy; 2026 · All views are personal</p>
+</footer>
+</body>
+</html>
