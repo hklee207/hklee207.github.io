@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects · Aiden Lee</title>
+<meta name="description" content="Industrial &amp; Operations Engineering student at Michigan. I find slow, manual work and build software that compresses it.">
+<link rel="stylesheet" href="../style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<main>
+<nav class="top"><a href="../index.html" class="home">Aiden Lee</a><span><a href="../writing/index.html">Writing</a><a href="../worldview/index.html">Worldview</a><a href="../projects/index.html">Projects</a><button id="theme" aria-label="Toggle theme">◐</button></span></nav>
+<h1>Projects</h1><p class="muted">Things I've built, mostly to answer a question I had.</p><ul class="projects"><li><a href="https://glg-value-chain-explorer.onrender.com/" target="_blank" rel="noopener">Value Chain Explorer <span class="arrow">↗</span></a><p>Type a company name and get its value chain, impact-scored news pinned to each link, and the experts to call about each signal. English and Korean. Built solo at GLG Korea, 2026. <a href="posts/value-chain-explorer.html">Write-up</a>.</p><p class="muted small">Access code on the <a href="posts/value-chain-explorer.html">write-up page</a>.</p></li><li><a href="https://apeul.com" target="_blank" rel="noopener">Apeul <span class="arrow">↗</span></a><p>Your A+ course companion: lecture slides become notes, cheat sheets and practice questions, with an AI tutor in context. Built with my team. <a href="posts/apeul.html">Write-up</a>.</p></li><li><a href="https://github.com/hklee207/cdd-predictor" target="_blank" rel="noopener">Hypothesis CDD Predictor <span class="arrow">↗</span></a><p>A Flask + Claude app that drafts a MECE hypothesis tree for commercial due diligence. Open source. <a href="posts/cdd-predictor.html">Write-up</a>.</p></li><li><span>Job Agent 27</span><p>My personal Summer 2027 job agent. Three times a day it pulls new postings from LinkedIn and Jobright, drops reposts, reads each real application page for work-authorization language, and sends me a digest.</p></li><li><span>Tinkerly</span><p>A private newspaper I built from my dad's weekly world reports and daily market notes: a front page, a timeline and map of how the world changed, and an analyst agent that writes down forecasts and scores them. The public part lives in <a href="worldview/index.html">Worldview</a>.</p></li><li><a href="../posts/sp500-monte-carlo.html">S&amp;P 500 Top 20 Dashboard</a><p>DCF, DDM and multiples for the twenty largest S&amp;P 500 names, with a Monte Carlo risk model. <a href="posts/sp500-analysis-notebook.html">Notebook</a>.</p></li><li><a href="../posts/gold-fed-policy.html">Gold Monte Carlo</a><p>Simulating gold price paths, then adjusting them for Fed policy. Notebooks: <a href="posts/gold-monte-carlo-notebook.html">baseline</a>, <a href="posts/gold-fed-monte-carlo-notebook.html">Fed-adjusted</a>. Plus a live <a href="posts/gold-price-tracker.html">gold price tracker</a>.</p></li></ul>
+<footer>
+<span><a href="https://github.com/hklee207" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/hyunku-lee-2705b7249/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:aidenleez207@gmail.com">Email</a></span>
+<span class="muted">© 2026 Aiden Lee</span>
+</footer>
+</main>
+<script>document.getElementById('theme')?.addEventListener('click',()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=d?'light':'dark';try{localStorage.setItem('theme',r.dataset.theme)}catch(e){}})</script>
+</body>
+</html>

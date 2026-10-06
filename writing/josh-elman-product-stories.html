@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Product Manager's Artifact Is a Story · Aiden Lee</title>
+<meta name="description" content="Josh Elman on why cheap building makes judgment the whole job, and what Twitter's onboarding fix teaches about telling a product's story.">
+<link rel="stylesheet" href="../style.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+</head>
+<body>
+<main>
+<nav class="top"><a href="../index.html" class="home">Aiden Lee</a><span><a href="../writing/index.html">Writing</a><a href="../worldview/index.html">Worldview</a><a href="../projects/index.html">Projects</a><button id="theme" aria-label="Toggle theme">◐</button></span></nav>
+<article>
+<h1>The Product Manager's Artifact Is a Story</h1>
+<p class="meta">September 16, 2026 · 4 min read · Josh Elman, "Product Management is Still All About Telling Stories" (a16z)</p>
+<div class="prose"><p>This one is an essay, not a live talk, but it affected me more than most live events this fall, so it goes here.</p>
+<p>Josh Elman has worked on product at RealNetworks, LinkedIn, and Twitter, and now invests at a16z. The essay opens with a question Reid Hoffman asked him in a LinkedIn interview: what is the artifact a product manager produces? Engineers produce code. Business development produces contracts. Designers produce the look. What does a PM produce?</p>
+<p>Elman answered with the spec, and wrote a 120-page one for LinkedIn's jobs product. He has since concluded that answer was wrong. The spec describes a system and what must be checked off. The real artifact, he says, is the story: who will use this and why it matters in their lives.</p>
+<p>The story has two requirements. It must be immediately understandable to whoever hears it, and repeatable, so people can pass it on faithfully without you in the room.</p>
+<h3>The cost of making fell, judgment didn't</h3>
+<p>His claim about AI is the sharpest I've read. The cost of making things has collapsed, but the cost of judgment hasn't changed at all. Deciding what to build matters more than ever.</p>
+<p>The old loop was idea, spec, costing, scoping, arguing, then build. Those rituals existed to protect scarce engineering time, since you got maybe six or eight turns around the loop per year. The new loop is idea, build it quickly with AI to see how it feels, play with it, then design it properly and ship. Prototypes beat what-ifs.</p>
+<h3>Does it fit in the product?</h3>
+<p>He also wants PMs to drop the default question of whether something fits in the schedule. The better question is whether it fits in the product. When everyone has agents that can code, the debate is no longer about resources. It's about impact: this or that, not this or nothing.</p>
+<p>His fear is AI slop for products, where speed turns into cramming everything in. When anyone can build anything, deciding what to build is the whole job, and that is a story problem. What story do you want living in your customers' heads?</p>
+<h3>Purpose, core actions, cycle</h3>
+<p>Elman defines a product vision in three parts:</p>
+<ul><li><strong>Purpose.</strong> Why would someone put this product in their life?</li><li><strong>Core actions.</strong> When they pick it up, what are they actually doing?</li><li><strong>Cycle.</strong> How often do they do each action?</li></ul>
+<p>He says founders consistently fail the question "are people using your product?" They answer with signups, waitlists, app store rankings, or token counts. None of that answers it. Add the word "really" and sometimes they catch on.</p>
+<p>His LinkedIn example is the one I keep coming back to. Purpose: find and be found. Core action for most people: respond when someone reaches out. Cycle: once or twice a year. Because the cycle was so long, LinkedIn didn't push people to act daily, even though it looked like a social network. They put their effort into keeping profiles accurate, since that is what makes the rare moment work.</p>
+<p>My instinct would have been to push for daily engagement. That would have been wrong. I want to be able to reason my way to the counterintuitive answer next time.</p>
+<h3>Onboarding is the story</h3>
+<p>Onboarding, he argues, is the one moment you get a customer's full attention. He sorts arrivals into eagers, fly-bys, and a fuzzy middle, and says to build for the middle. People who work at a company live in eager-land and think every step is boring. They are the wrong audience for the design.</p>
+<p>Two rules surprised me. More simple steps beat fewer complex ones, which A/B tests at several companies supported. And when testing flows, don't measure how many reach the end. Measure who returns the next day or week and who takes a core action.</p>
+<p>AI products make this harder, because the blank prompt box is, in his words, in some ways the worst onboarding screen ever designed. It can do anything, so what do you want to do? His answer is to teach capabilities one concept at a time and get the user to a valuable result quickly.</p>
+<h3>The Twitter case</h3>
+<p>When Elman joined Twitter in late 2009, the apparent problem was growth. Millions signed up and never came back. The real problem was that no one could tell you what Twitter was.</p>
+<p>The old flow ended on essentially an empty compose box, and people thought they had nothing to say. The fix was the Learn flow:</p>
+<ol><li>A welcome screen explaining what Twitter is for.</li><li>"This is a tweet," the basic unit.</li><li>A live demonstration where you follow people and their tweets appear on the right.</li><li>A timeline made up entirely of accounts you chose.</li></ol>
+<p>He says it moved retention more than anything else they shipped that year. Onboarding is your story.</p>
+<h3>What I'm taking from it</h3>
+<p>This reframed how I approach what I build next. Before prototyping, I want to write one sentence about what the product does for someone in their life, and see whether another person can repeat it back without me. If they can't, more building won't fix it.</p>
+<p>I also want to run purpose, core action, and cycle on everything I've made, including past projects, and see which of my own numbers actually answer his question.</p>
+<p>His closing line is a rule for how I use AI: use it to go faster on prototypes, but don't speed up your judgment. I lean on AI heavily, so the line I'm drawing is that it can help me build and help me find what I'd have missed, but it doesn't get to form the opinion. Reading raw user transcripts myself is the concrete version of that.</p></div>
+</article>
+<p class="more"><a href="index.html">← All writing</a></p>
+<footer>
+<span><a href="https://github.com/hklee207" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/hyunku-lee-2705b7249/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:aidenleez207@gmail.com">Email</a></span>
+<span class="muted">© 2026 Aiden Lee</span>
+</footer>
+</main>
+<script>document.getElementById('theme')?.addEventListener('click',()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=d?'light':'dark';try{localStorage.setItem('theme',r.dataset.theme)}catch(e){}})</script>
+</body>
+</html>

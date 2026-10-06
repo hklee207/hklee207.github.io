@@ -1,0 +1,52 @@
+{
+  "name": "Aiden Lee",
+  "tagline": "Industrial & Operations Engineering student at Michigan. I find slow, manual work and build software that compresses it.",
+  "bio": "I'm a junior studying Industrial & Operations Engineering at the [University of Michigan](https://ioe.engin.umich.edu/). I grew up in Seoul, did my first two years of college in Chicago, then served 18 months as a logistics officer and interpreter in the Korean Army.\n\nSince then I've kept doing one thing: find a slow, manual piece of knowledge work and build a tool that makes it fast. At GLG Korea that was a [value-chain research tool](posts/value-chain-explorer.html) for the business development team. With friends it's [Apeul](https://apeul.com), a study companion for college courses.\n\nEvery week my dad sends me a report on the world economy, and every trading day a short market note. Talking those through with him is how I learn to see the world. I write down what I take from it in [Worldview](worldview/index.html).",
+  "now": "- Researching *learning to defer* with Prof. Wentao Weng at U-M IOE: when should an AI decide on its own, and when should it hand a task to a human expert with limited capacity?\n- Looking for a Summer 2027 role at an early-stage AI startup, working on growth and go-to-market.\n- Building Apeul with my team, and small tools for myself, like a job agent that reads application portals so I don't have to.\n- Going back to fundamentals: math, philosophy, psychology.",
+  "worldviewBlurb": "Notes from my weekly and daily conversations with my dad about the economy, markets and geopolitics.",
+  "links": [
+    { "label": "GitHub", "url": "https://github.com/hklee207" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/hyunku-lee-2705b7249/" },
+    { "label": "Email", "url": "mailto:aidenleez207@gmail.com" }
+  ],
+  "projects": [
+    {
+      "name": "Value Chain Explorer",
+      "url": "https://glg-value-chain-explorer.onrender.com/",
+      "description": "Type a company name and get its value chain, impact-scored news pinned to each link, and the experts to call about each signal. English and Korean. Built solo at GLG Korea, 2026. [Write-up](posts/value-chain-explorer.html).",
+      "note": "Access code on the [write-up page](posts/value-chain-explorer.html)."
+    },
+    {
+      "name": "Apeul",
+      "url": "https://apeul.com",
+      "description": "Your A+ course companion: lecture slides become notes, cheat sheets and practice questions, with an AI tutor in context. Built with my team. [Write-up](posts/apeul.html)."
+    },
+    {
+      "name": "Hypothesis CDD Predictor",
+      "url": "https://github.com/hklee207/cdd-predictor",
+      "description": "A Flask + Claude app that drafts a MECE hypothesis tree for commercial due diligence. Open source. [Write-up](posts/cdd-predictor.html)."
+    },
+    {
+      "name": "Job Agent 27",
+      "description": "My personal Summer 2027 job agent. Three times a day it pulls new postings from LinkedIn and Jobright, drops reposts, reads each real application page for work-authorization language, and sends me a digest."
+    },
+    {
+      "name": "Tinkerly",
+      "description": "A private newspaper I built from my dad's weekly world reports and daily market notes: a front page, a timeline and map of how the world changed, and an analyst agent that writes down forecasts and scores them. The public part lives in [Worldview](worldview/index.html)."
+    },
+    {
+      "name": "S&P 500 Top 20 Dashboard",
+      "post": "posts/sp500-monte-carlo.html",
+      "description": "DCF, DDM and multiples for the twenty largest S&P 500 names, with a Monte Carlo risk model. [Notebook](posts/sp500-analysis-notebook.html)."
+    },
+    {
+      "name": "Gold Monte Carlo",
+      "post": "posts/gold-fed-policy.html",
+      "description": "Simulating gold price paths, then adjusting them for Fed policy. Notebooks: [baseline](posts/gold-monte-carlo-notebook.html), [Fed-adjusted](posts/gold-fed-monte-carlo-notebook.html). Plus a live [gold price tracker](posts/gold-price-tracker.html)."
+    }
+  ],
+  "archive": [
+    { "title": "S&P 500 Monte Carlo Simulation: Risk Estimation Under Uncertainty", "href": "posts/sp500-monte-carlo.html", "date": "March 2026" },
+    { "title": "Gold as a Safe Haven: Fed Policy and Price Dynamics", "href": "posts/gold-fed-policy.html", "date": "February 2026" }
+  ]
+}
