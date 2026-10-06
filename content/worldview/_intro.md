@@ -18,3 +18,5 @@ The notes in this section are my attempt to write that argument down, one arc at
 - **The AI boom is real, and so is the thin job market.** Spending is carrying growth, but it is not creating many seats. Both facts have to sit together.
 - **Being a US ally stopped being free.** Trust now has a price, and middle powers are quietly hedging.
 - **Ask whether a race is worth entering.** Being able to compete is different from it being wise to. That one applies to startups too.
+
+The full archive, with every weekly report, a timeline and map of how the world changed, and the daily notes, is in [Tinkerly](https://tinkering-weekly.vercel.app), the newspaper I built from them.
