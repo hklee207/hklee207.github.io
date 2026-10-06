@@ -37,7 +37,8 @@
     },
     {
       "name": "Job Agent 27",
-      "description": "My personal Summer 2027 job agent. Three times a day it pulls new postings from LinkedIn and Jobright, drops reposts, reads each real application page for work-authorization language, and sends me a digest."
+      "description": "My personal Summer 2027 job agent. Three times a day it pulls new postings from LinkedIn and Jobright, drops reposts, reads each real application page for work-authorization language, and sends me a digest. The dashboard updates three times a day.",
+      "url": "https://job-agent-dashboard.vercel.app"
     },
     {
       "name": "Tinkerly",
