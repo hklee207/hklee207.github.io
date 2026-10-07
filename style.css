@@ -114,7 +114,7 @@ header.intro p { margin: 0; font-size: 15px; }
 .journey .prose h2 small { display: block; color: var(--muted); font-weight: 400; font-size: 13px; margin-bottom: 2px; }
 
 
-header.hero { display: grid; grid-template-columns: 1fr 200px; gap: 32px; align-items: start; }
+header.hero { display: grid; grid-template-columns: 1fr 220px; gap: 32px; align-items: start; }
 header.hero h1 { margin: 0; }
 header.hero .role { margin: 2px 0 20px; font-size: 15px; }
 .portrait { margin: 6px 0 0; }
