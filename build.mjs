@@ -20,10 +20,26 @@ function inline(s) {
 
 // A paragraph made only of images becomes a photo row: ![alt](src "caption")
 const IMG = /!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g;
+// Width/height of a JPEG, read from its SOF marker, so rows can size photos without cropping.
+function jpegSize(rel) {
+  try {
+    const b = readFileSync(join(ROOT, rel));
+    for (let i = 2; i < b.length;) {
+      const marker = b[i + 1], len = b.readUInt16BE(i + 2);
+      if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker))
+        return { w: b.readUInt16BE(i + 7), h: b.readUInt16BE(i + 5) };
+      i += 2 + len;
+    }
+  } catch {}
+  return { w: 4, h: 3 };
+}
+
 function photos(line, base) {
   const imgs = [...line.matchAll(IMG)];
-  return `<div class="photos n${imgs.length}">${imgs.map(([, alt, src, cap]) =>
-    `<figure><img src="${base}${src}" alt="${esc(alt)}" loading="lazy">${cap ? `<figcaption>${inline(cap)}</figcaption>` : ''}</figure>`).join('')}</div>`;
+  return `<div class="photos n${imgs.length}">${imgs.map(([, alt, src, cap]) => {
+    const { w, h } = jpegSize(src);
+    return `<figure style="flex:${(w / h).toFixed(3)}"><img src="${base}${src}" alt="${esc(alt)}" width="${w}" height="${h}" loading="lazy">${cap ? `<figcaption>${inline(cap)}</figcaption>` : ''}</figure>`;
+  }).join('')}</div>`;
 }
 
 function markdown(src, base = '') {
@@ -144,8 +160,13 @@ const projectList = (depth) => `<ul class="projects">${site.projects.map(p => {
 
 write('index.html', page({
   title: `${site.name}`,
-  body: `<header class="intro"><img src="assets/avatar.jpg" alt="${esc(site.name)}" class="avatar"><div><h1>${esc(site.name)}</h1><p class="muted">${esc(site.role)}</p></div></header>
-<div class="prose">${markdown(site.bio)}</div>
+  body: `<header class="hero">
+<div class="hero-text"><h1>${esc(site.name)}</h1><p class="muted role">${esc(site.role)}</p><div class="prose">${markdown(site.bio)}</div></div>
+<figure class="portrait"><img src="assets/portrait.jpg" alt="${esc(site.name)} on a street in Seoul" width="900" height="1575"></figure>
+</header>
+
+<figure class="shot" id="shot"><img src="${site.gallery[0].src}" alt="${esc(site.gallery[0].caption)}"><figcaption>${esc(site.gallery[0].caption)}</figcaption></figure>
+<script>(function(){var g=${JSON.stringify(site.gallery)},p=g[Math.floor(Math.random()*g.length)],f=document.getElementById('shot');f.querySelector('img').src=p.src;f.querySelector('img').alt=p.caption;f.querySelector('figcaption').textContent=p.caption})()</script>
 
 <section><h2>Now</h2><div class="prose">${markdown(site.now)}</div></section>
 

@@ -47,7 +47,7 @@ After my sophomore year I flew back to Korea for mandatory military service, lik
 
 At first it felt like my life was on pause while everyone else kept moving. One night after a shift, I looked around and realized everyone beside me carried the same quiet weight. I wasn't alone in it. A line from Viktor Frankl's *Man's Search for Meaning* kept coming back to me: the last human freedom is to choose one's attitude in any given set of circumstances. I couldn't change where I was. I could choose how I stood inside it.
 
-![With my unit](assets/journey/army-unit.jpg "With the people who taught me what unity means.") ![Joint training with US Army medics](assets/journey/army-joint-training.jpg "Joint training with US medics. Interpreting between the two sides was part of my job.")
+![With my unit](assets/journey/army-unit.jpg "With the people who taught me what unity means.") ![Joint training with US Army medics](assets/journey/army-joint-training.jpg "Interpreting (left, with the mic) next to a US Army master sergeant during joint medical training.")
 
 So I treated the two hours a day that were mine as my one chance to build. Over 18 months that added up to about a thousand hours. I finished Andrew Ng's Machine Learning Specialization, passed CFA Level I as an engineer who had never studied finance, and won Michigan's Hydrogen Grand Challenge with my teammates. I also met a friend on a training range, ran into him again in an entrepreneurship class, and together we reached the finals of the Ministry of National Defense's start-up competition. That team is now building [Apeul](https://apeul.com). The gap I had feared became the most formative season of my life.
 

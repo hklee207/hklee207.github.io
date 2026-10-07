@@ -68,5 +68,47 @@
       "date": "February 2026"
     }
   ],
-  "role": "Industrial & Operations Engineering · University of Michigan"
+  "role": "Industrial & Operations Engineering · University of Michigan",
+  "gallery": [
+    {
+      "src": "assets/gallery/garden-table.jpg",
+      "caption": "The garden, summer afternoon."
+    },
+    {
+      "src": "assets/gallery/garden-green.jpg",
+      "caption": "The garden in July."
+    },
+    {
+      "src": "assets/gallery/garden-dusk.jpg",
+      "caption": "The garden at dusk."
+    },
+    {
+      "src": "assets/gallery/light-and-concrete.jpg",
+      "caption": "Light and concrete."
+    },
+    {
+      "src": "assets/gallery/reservoir-morning.jpg",
+      "caption": "Central Park Reservoir, morning."
+    },
+    {
+      "src": "assets/journey/nyc-beresford.jpg",
+      "caption": "Central Park West."
+    },
+    {
+      "src": "assets/gallery/han-river-sunset.jpg",
+      "caption": "Sunset on the river."
+    },
+    {
+      "src": "assets/gallery/river-at-dusk.jpg",
+      "caption": "The river at dusk."
+    },
+    {
+      "src": "assets/gallery/corner-at-night.jpg",
+      "caption": "A corner at night."
+    },
+    {
+      "src": "assets/gallery/museum-drawing.jpg",
+      "caption": "A drawing I stood in front of for a long time."
+    }
+  ]
 }
