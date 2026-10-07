@@ -114,16 +114,15 @@ header.intro p { margin: 0; font-size: 15px; }
 .journey .prose h2 small { display: block; color: var(--muted); font-weight: 400; font-size: 13px; margin-bottom: 2px; }
 
 
-header.hero { display: grid; grid-template-columns: 1fr 220px; gap: 32px; align-items: start; }
+header.hero { display: flow-root; }
 header.hero h1 { margin: 0; }
 header.hero .role { margin: 2px 0 20px; font-size: 15px; }
-.portrait { margin: 6px 0 0; }
+.portrait { float: right; width: 210px; margin: 4px 0 16px 32px; }
 .portrait img { display: block; width: 100%; height: auto; border-radius: 10px; }
 .shot { margin: 40px 0 0; }
 .shot img { display: block; width: 100%; height: auto; max-height: 520px; object-fit: cover; border-radius: 10px; background: var(--hover); }
 .shot figcaption { color: var(--muted); font-size: 13px; margin-top: 8px; }
 @media (max-width: 600px) {
-  header.hero { grid-template-columns: 1fr; gap: 0; }
-  .portrait { order: -1; width: 160px; margin: 0 0 20px; }
+  .portrait { float: none; width: 170px; margin: 0 0 20px; }
 }
 h1 .hanja { color: var(--muted); font-weight: 400; margin-left: 6px; letter-spacing: 0.04em; }

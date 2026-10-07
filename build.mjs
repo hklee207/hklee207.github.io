@@ -161,8 +161,9 @@ const projectList = (depth) => `<ul class="projects">${site.projects.map(p => {
 write('index.html', page({
   title: `${site.name}`,
   body: `<header class="hero">
-<div class="hero-text"><h1>${esc(site.name)}${site.hanja ? ` <span class="hanja" lang="ko">${esc(site.hanja)}</span>` : ''}</h1><p class="muted role">${esc(site.role)}</p><div class="prose">${markdown(site.bio)}</div></div>
 <figure class="portrait"><img src="assets/portrait.jpg" alt="${esc(site.name)} on a street in Seoul" width="1000" height="1321"></figure>
+<h1>${esc(site.name)}${site.hanja ? ` <span class="hanja" lang="ko">${esc(site.hanja)}</span>` : ''}</h1><p class="muted role">${esc(site.role)}</p>
+<div class="prose">${markdown(site.bio)}</div>
 </header>
 
 <figure class="shot" id="shot"><img src="${site.gallery[0].src}" alt="${esc(site.gallery[0].caption)}"><figcaption>${esc(site.gallery[0].caption)}</figcaption></figure>
