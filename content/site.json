@@ -71,16 +71,16 @@
   "role": "Industrial & Operations Engineering · University of Michigan",
   "gallery": [
     {
+      "src": "assets/gallery/garden-dusk.jpg",
+      "caption": "My home garden in Seoul, at dusk."
+    },
+    {
       "src": "assets/gallery/garden-table.jpg",
-      "caption": "The garden, summer afternoon."
+      "caption": "My home garden in Seoul, summer afternoon."
     },
     {
       "src": "assets/gallery/garden-green.jpg",
-      "caption": "The garden in July."
-    },
-    {
-      "src": "assets/gallery/garden-dusk.jpg",
-      "caption": "The garden at dusk."
+      "caption": "My home garden in Seoul, in July."
     },
     {
       "src": "assets/gallery/light-and-concrete.jpg",
