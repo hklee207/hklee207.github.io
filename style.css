@@ -99,3 +99,21 @@ footer a:hover { color: var(--text); }
   ul.rows a { flex-direction: column; gap: 0; }
   ul.rows .d { padding-top: 0; }
 }
+
+header.intro { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+header.intro h1 { margin: 0; }
+header.intro p { margin: 0; font-size: 15px; }
+.avatar { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: none; }
+
+.photos { display: grid; gap: 8px; margin: 28px 0; }
+.photos.n2 { grid-template-columns: 1fr 1fr; }
+.photos.n3 { grid-template-columns: 1fr 1fr 1fr; }
+.photos figure { margin: 0; }
+.photos img { display: block; border-radius: 6px; background: var(--hover); }
+.photos.n2 img, .photos.n3 img { width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; }
+.photos.n1 figure { width: fit-content; max-width: 100%; margin: 0 auto; }
+.photos.n1 img { width: auto; height: auto; max-width: 100%; max-height: 440px; }
+.photos figcaption { color: var(--muted); font-size: 13px; margin-top: 6px; line-height: 1.45; }
+.journey .prose h2 { margin-top: 56px; }
+.journey .prose h2 small { display: block; color: var(--muted); font-weight: 400; font-size: 13px; margin-bottom: 2px; }
+@media (max-width: 480px) { .photos.n3 { grid-template-columns: 1fr 1fr; } }

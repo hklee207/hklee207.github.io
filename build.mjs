@@ -18,10 +18,23 @@ function inline(s) {
     .replace(/`([^`]+)`/g, '<code>$1</code>');
 }
 
-function markdown(src) {
+// A paragraph made only of images becomes a photo row: ![alt](src "caption")
+const IMG = /!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g;
+function photos(line, base) {
+  const imgs = [...line.matchAll(IMG)];
+  return `<div class="photos n${imgs.length}">${imgs.map(([, alt, src, cap]) =>
+    `<figure><img src="${base}${src}" alt="${esc(alt)}" loading="lazy">${cap ? `<figcaption>${inline(cap)}</figcaption>` : ''}</figure>`).join('')}</div>`;
+}
+
+function markdown(src, base = '') {
   const out = [];
   let para = [], list = null, quote = [];
-  const flushPara = () => { if (para.length) out.push(`<p>${inline(para.join(' '))}</p>`); para = []; };
+  const flushPara = () => {
+    if (!para.length) return;
+    const text = para.join(' ');
+    out.push(text.replace(IMG, '').trim() === '' ? photos(text, base) : `<p>${inline(text)}</p>`);
+    para = [];
+  };
   const flushList = () => { if (list) out.push(`<${list.tag}>${list.items.map(i => `<li>${inline(i)}</li>`).join('')}</${list.tag}>`); list = null; };
   const flushQuote = () => { if (quote.length) out.push(`<blockquote>${markdown(quote.join('\n'))}</blockquote>`); quote = []; };
   const flush = () => { flushPara(); flushList(); flushQuote(); };
@@ -91,7 +104,7 @@ function page({ title, description, depth = 0, body, nav = true }) {
 </head>
 <body>
 <main>
-${nav ? `<nav class="top"><a href="${up}index.html" class="home">${esc(site.name)}</a><span><a href="${up}writing/index.html">Writing</a><a href="${up}worldview/index.html">Worldview</a><a href="${up}projects/index.html">Projects</a><button id="theme" aria-label="Toggle theme">◐</button></span></nav>` : ''}
+${nav ? `<nav class="top"><a href="${up}index.html" class="home">${esc(site.name)}</a><span><a href="${up}journey/index.html">Journey</a><a href="${up}writing/index.html">Writing</a><a href="${up}worldview/index.html">Worldview</a><a href="${up}projects/index.html">Projects</a><button id="theme" aria-label="Toggle theme">◐</button></span></nav>` : ''}
 ${body}
 <footer>
 <span>${site.links.map(l => `<a href="${l.url}"${/^https?:/.test(l.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(l.label)}</a>`).join('')}</span>
@@ -131,7 +144,7 @@ const projectList = (depth) => `<ul class="projects">${site.projects.map(p => {
 
 write('index.html', page({
   title: `${site.name}`,
-  body: `<h1>${esc(site.name)}</h1>
+  body: `<header class="intro"><img src="assets/avatar.jpg" alt="${esc(site.name)}" class="avatar"><div><h1>${esc(site.name)}</h1><p class="muted">${esc(site.role)}</p></div></header>
 <div class="prose">${markdown(site.bio)}</div>
 
 <section><h2>Now</h2><div class="prose">${markdown(site.now)}</div></section>
@@ -192,4 +205,14 @@ write('projects/index.html', page({
   body: `<h1>Projects</h1><p class="muted">Things I've built, mostly to answer a question I had.</p>${projectList(1)}`,
 }));
 
-console.log(`built: home, ${writing.length} writing, ${worldview.length} worldview, ${site.projects.length} projects`);
+const journey = parse(join(ROOT, 'content/journey.md'));
+write('journey/index.html', page({
+  title: `${journey.meta.title} · ${site.name}`, description: journey.meta.summary, depth: 1,
+  body: `<article class="journey">
+<h1>${esc(journey.meta.title)}</h1>
+<p class="meta">${esc(journey.meta.summary)}</p>
+<div class="prose">${markdown(journey.body, '../')}</div>
+</article>`,
+}));
+
+console.log(`built: journey, home, ${writing.length} writing, ${worldview.length} worldview, ${site.projects.length} projects`);
