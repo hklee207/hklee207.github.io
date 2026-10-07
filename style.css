@@ -126,3 +126,4 @@ header.hero .role { margin: 2px 0 20px; font-size: 15px; }
   header.hero { grid-template-columns: 1fr; gap: 0; }
   .portrait { order: -1; width: 160px; margin: 0 0 20px; }
 }
+h1 .hanja { color: var(--muted); font-weight: 400; margin-left: 6px; letter-spacing: 0.04em; }
