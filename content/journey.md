@@ -53,7 +53,7 @@ So I treated the two hours a day that were mine as my one chance to build. Over 
 
 ## Seoul, and seeing my work matter
 
-Two months after I was discharged, I joined GLG Korea as a project associate intern. The role was finding and screening experts for clients. But I kept noticing how much of the work was slow and manual, so I built tools for it, including the [Value Chain Explorer](../posts/value-chain-explorer.html), and presented them to the Korea leadership.
+Two months after I was discharged, I joined Gerson Lehrman Group in Seoul as a project associate intern. The role was finding and screening experts for clients. But I kept noticing how much of the work was slow and manual, so I built tools for it, including the [Value Chain Explorer](../posts/value-chain-explorer.html), and presented them to the Korea leadership.
 
 ![The Han River at sunset](assets/journey/seoul-han-river.jpg "Seoul.") ![A street corner in Japan at night](assets/journey/tokyo-street.jpg "Japan, August 2026.")
 
